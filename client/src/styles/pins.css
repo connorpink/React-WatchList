@@ -1,0 +1,60 @@
+.userPin {
+  margin-top: 1.5rem;
+  width: 18rem;
+  height: 24rem;
+  background-color: white;
+}
+.userPin {
+  padding: 2rem;
+  width: 36rem;
+}
+.userPin p {
+  font-size: 0.7em;
+  display: inline;
+}
+.userPin h1 {
+  font-size: 0.7em;
+  display: inline;
+}
+
+.profile {
+  margin: 1.5rem auto;
+  width: 50rem;
+}
+
+.profile .buttonDiv {
+  display: inline-block;
+  vertical-align: bottom;
+  height: 0%;
+}
+
+.profileButtons {
+  display: flex;
+  flex-direction: column;
+}
+.profileSplit {
+  margin: auto;
+  width: 15rem;
+}
+.profileInfo {
+}
+.profileInfo h1 {
+  margin-bottom: 3rem;
+}
+
+profile button {
+  width: calc(100% - 9rem);
+  margin: 0rem 4.5rem;
+  padding: 0.3rem 0.6rem;
+  background-color: #f6eee3;
+  font-size: 1.2rem;
+  color: #4a4a4a;
+  border: 2px solid #4a4a4a;
+  border-radius: 3rem;
+  transition: 0.15s ease-in-out;
+}
+profile button &:hover {
+  color: #f6eee3;
+  background-color: #575757;
+  cursor: pointer;
+}
