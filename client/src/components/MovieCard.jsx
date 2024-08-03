@@ -20,10 +20,13 @@ link: {
 */
 
 function MovieCard({ movie, link }) {
-
+    // console.log(movie.genre_ids)
     return (
         <div className="MovieCard">
-
+            {(movie.poster_path) ?
+                <img className="poster" src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`} alt={movie.title} />
+                :
+                ("")}
             {/* general information that every movie card should display*/}
             <h2>{movie.title}</h2>
             <p>{new Date(movie.release_date).toLocaleDateString()} | {Math.round(movie.vote_average * 10) / 10}/10 | {movie.runtime} minutes</p>

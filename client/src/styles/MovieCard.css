@@ -52,3 +52,6 @@
   width: 90%;
   height: 100px;
 }
+.MovieCard .poster {
+  width: -webkit-fill-available;
+}

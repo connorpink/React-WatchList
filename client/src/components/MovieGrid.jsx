@@ -26,7 +26,6 @@ button will be applied to every card
 */
 
 export default function MovieGrid({ movies, link }) {
-
     return (
         <section className="MovieGrid">
             {movies.map((movie, index) => (
