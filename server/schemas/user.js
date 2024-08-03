@@ -3,10 +3,10 @@ const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema({
   username: String,
   email: String,
-  bio: String,
+  TMDB_api_key: String,
   hash: { type: String, select: false },
   salt: { type: String, select: false },
-  projects: {
+  watch_list: {
     type: [{ type: mongoose.SchemaTypes.ObjectId }],
     select: false,
   },

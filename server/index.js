@@ -78,20 +78,6 @@ app.use("/server", (req, res, next) => {
   next();
 });
 
-// require("dotenv").config();
-
-// const DBString = process.env.DATABASE_URL;
-// mongoose.connect(DBString);
-// const database = mongoose.connection;
-
-// database.on("error", (error) => {
-//   console.log(error);
-// });
-
-// database.once("connected", () => {
-//   console.log("Database Connected");
-// });
-
 app.get("/", (req, res) => {
   res.send("Hello from our server!");
 });
@@ -99,8 +85,8 @@ app.get("/", (req, res) => {
 const usersRouter = require("./routes/user.route");
 app.use("/user", usersRouter);
 
-// const projectRouter = require("./routes/project.route");
-// app.use("/project", projectRouter);
+// const watchListRouter = require("./routes/watchList.route");
+// app.use("/watchList", watchListRouter);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {

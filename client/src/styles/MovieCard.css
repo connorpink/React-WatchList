@@ -1,0 +1,54 @@
+.MovieCard {
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  padding: 1em;
+  padding-bottom: 2em;
+  width: 20em;
+  box-sizing: border-box;
+  background-color: white;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  border-radius: 0.75em;
+}
+
+.MovieCard h3 {
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.links {
+  position: absolute;
+  bottom: 1em;
+  width: calc(100% - 2em);
+  display: flex;
+  gap: 0.6rem;
+}
+
+.links a {
+  width: 100%;
+  border: 0.09rem solid black;
+  background-color: lightblue;
+  padding: 0.06rem;
+  border-radius: 0.15rem;
+  text-align: center;
+  text-decoration: none;
+  color: black;
+}
+
+.MovieCard p:not(.detailed p) {
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Number of lines to show */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-clamp: 3; /* Add this standard property for compatibility */
+}
+
+.detailed {
+  width: auto;
+  margin: 3rem;
+}
+
+.MovieCard textarea {
+  width: 90%;
+  height: 100px;
+}

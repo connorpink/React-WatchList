@@ -9,10 +9,6 @@ function Login() {
     const [password, setPassword] = useState("")
     const [errorMessage, setErrorMessage] = useState("")
 
-    useEffect(() => {
-        document.body.classList.add('loginBackground')
-        return () => { document.body.classList.remove('loginBackground') }
-    }, [])
 
     useEffect(() => {
         setErrorMessage("");

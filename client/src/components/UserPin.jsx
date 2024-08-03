@@ -1,5 +1,9 @@
-function UserPin(userData) {
+import { useState } from "react";
 
+
+function UserPin(userData) {
+    // console.log(userData.userData.TMDB_api_key)
+    const [userKey, setUserKey] = useState(userData.userData.TMDB_api_key);
     // handle logout function
     const handleLogout = () => {
         const postRequest = {
@@ -16,6 +20,24 @@ function UserPin(userData) {
             })
     };
 
+    //handle update account API key
+    const updateAccount = () => {
+        const patchRequest = {
+            method: 'PATCH',
+            body: JSON.stringify({
+                TMDB_api_key: userKey,
+            }),
+            headers: { 'Content-Type': 'application/json' }
+        }
+        fetch('server/user/updateAccount', patchRequest)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.message == "success") {
+                    window.location = '/';
+                }
+            })
+    };
 
     return (
         <div className="userPin">
@@ -26,12 +48,11 @@ function UserPin(userData) {
                         <br />
                         <h1>email :</h1> <p> {userData.userData.email}</p>
                         <br />
-                        {/* if bio exists its displayed, otherwise display message to add bio */}
-                        <p>{userData.userData.bio ? userData.userData.bio : 'Add a bio on edit account page'}</p>
+                        <input type="text" placeholder="enter your TMDB API key here" defaultValue={userData.userData.TMDB_api_key} onChange={(e) => setUserKey(e.target.value)} />
                     </div>
                 </div>
                 <div className="profileButtons">
-                    <button>edit account -&gt; </button>
+                    <button onClick={updateAccount}>update account -&gt; </button>
                     <button
                         onClick={handleLogout}
 

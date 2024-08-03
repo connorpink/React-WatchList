@@ -103,6 +103,7 @@ router.post("/register", async (req, res) => {
   const newUser = new User({
     username: req.body.username,
     email: req.body.email,
+    TMDB_api_key: "",
     hash: hash,
     salt: salt,
   });
@@ -137,6 +138,32 @@ router.post("/logout", (req, res) => {
       res.end(JSON.stringify({ message: "success" }));
     }
   });
+});
+
+// takes account info arguments
+
+//  route will:
+//   patch account information for current user in database
+//   return error data or {message:"success"}
+router.patch("/updateAccount", (req, res) => {
+  console.log("user/account patch request received");
+  // if (!req.body.TMDB_api_key) {
+  //   return res.status(400).json({ error: "no api key provided" });
+  // }
+  // console.log("body:" + req.body);
+  // console.log("key:" + req.body.TMDB_api_key);
+  // console.log("user:" + req.user);
+
+  // save updated user
+  users
+    .updateOne(
+      { _id: req.user._id },
+      { $set: { TMDB_api_key: req.body.TMDB_api_key } }
+    )
+    .then((result) => console.log("Update result:", result))
+    .catch((error) => console.error("Error updating:", error));
+
+  res.send(req.body);
 });
 
 module.exports = router;
