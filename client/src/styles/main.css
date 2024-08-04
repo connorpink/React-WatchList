@@ -25,10 +25,14 @@ main {
   position: relative;
   margin: 0rem;
   padding: 0rem;
-  margin-left: 14.1rem;
-  width: calc(100% - 14.1rem);
+  /* margin-left: 14.1rem; */
+  /* width: calc(100% - 14.1rem); */
   min-height: 100vh;
   overflow-x: hidden;
+
+  background-size: cover; /* <------ */
+  background-repeat: no-repeat;
+  background-position: center center;
 
   @media (max-width: 93rem) {
     margin-left: 0.3rem;
@@ -145,4 +149,29 @@ input[type="number"] {
 /* Handle when scrollbar is in a drag state */
 ::-webkit-scrollbar-thumb:active {
   background-color: #4a4a4a;
+}
+
+.splitSpace {
+  display: flex;
+  width: 100%;
+  margin: 0rem;
+  padding: 0rem;
+  gap: 1rem;
+}
+
+.split {
+  flex-grow: 0.8;
+}
+
+@media only screen and (max-width: 720px) {
+  .splitSpace {
+    display: inline;
+  }
+}
+
+.btn-primary {
+  margin: 0 5px;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.25rem;
+  width: 6rem;
 }

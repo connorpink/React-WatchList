@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect, useState } from "react";
 import MovieGrid from "../components/MovieGrid";
+import Pagination from "../components/Pagination";
 
 export default function Home() {
     const navigate = useNavigate();
@@ -13,20 +14,15 @@ export default function Home() {
     const [maxPages, setMaxPages] = useState()
     const [page, setPage] = useState(1)
 
-    function handlePageChange(direction) {
-        //next page
-        if (direction > 0 && page < maxPages) {
-            setPage(page + direction)
-        }
-        //previous page
-        else if (direction < 1 && page > 1) {
-            setPage(page - 1)
-            // fetchUserData()
-        }
+
+
+    function handlePageChange(newPage) {
+        setPage(newPage)
         fetchUserData();
     }
 
-    console.log("current Page" + page);
+    // console.log("current Page" + page);
+
     async function fetchUserData() {
         await fetch('/server/user/info')
             .then((response) => {
@@ -57,6 +53,7 @@ export default function Home() {
                             vote_average: movie.vote_average,
                             vote_count: movie.vote_count,
                             poster_path: movie.poster_path,
+                            backdrop_path: movie.backdrop_path,
                         })));
                     })
                     .catch(error => console.error('error:', error));
@@ -67,7 +64,7 @@ export default function Home() {
             })
     }
 
-    console.log(maxPages);
+    // console.log(maxPages);
 
     // function to fetch user data from server
     useEffect(() => {
@@ -86,8 +83,8 @@ export default function Home() {
                 {/* if user has IMDB key display movies else display message to add a key */}
                 {userData.TMDB_api_key ? (
                     <div>
-                        <button onClick={() => handlePageChange(0)}>Previous Page</button>
-                        <button onClick={() => handlePageChange(1)}>Next Page</button>
+
+                        <Pagination onPageChange={handlePageChange} maxPages={maxPages} page={page} />
                         <MovieGrid movies={movies} />
 
                     </div>

@@ -9,17 +9,26 @@
   width: 36rem;
 }
 .userPin p {
-  font-size: 0.7em;
+  font-size: 1rem;
   display: inline;
 }
 .userPin h1 {
-  font-size: 0.7em;
+  font-size: 1.5rem;
   display: inline;
 }
-
+.userPin textarea {
+  font-size: 0.8rem;
+  width: 100%;
+  width: -moz-available; /* WebKit-based browsers will ignore this. */
+  width: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
+  width: fill-available;
+  height: auto;
+}
 .profile {
   margin: 1.5rem auto;
   width: 50rem;
+  display: flex;
+  justify-content: center;
 }
 
 .profile .buttonDiv {

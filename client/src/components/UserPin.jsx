@@ -41,23 +41,19 @@ function UserPin(userData) {
 
     return (
         <div className="userPin">
-            <div className="splitSpace">
-                <div className="profileSplit">
-                    <div className="profileInfo">
-                        <h1>username :</h1> <p>{userData.userData.username}</p>
-                        <br />
-                        <h1>email :</h1> <p> {userData.userData.email}</p>
-                        <br />
-                        <input type="text" placeholder="enter your TMDB API key here" defaultValue={userData.userData.TMDB_api_key} onChange={(e) => setUserKey(e.target.value)} />
-                    </div>
-                </div>
-                <div className="profileButtons">
-                    <button onClick={updateAccount}>update account -&gt; </button>
-                    <button
-                        onClick={handleLogout}
+            <div className="profileInfo">
+                <h1>username :</h1> <p>{userData.userData.username}</p>
+                <br />
+                <h1>email :</h1> <p> {userData.userData.email}</p>
+                <br />
+                <textarea rows="5" placeholder="enter your TMDB API key here" defaultValue={userData.userData.TMDB_api_key} onChange={(e) => setUserKey(e.target.value)} />
+            </div>
+            <div className="profileButtons">
+                <button onClick={updateAccount}>update account -&gt; </button>
+                <button
+                    onClick={handleLogout}
 
-                    >logout -&gt; </button>
-                </div>
+                >logout -&gt; </button>
             </div>
 
 

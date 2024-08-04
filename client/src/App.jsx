@@ -1,15 +1,16 @@
 //App.js
 import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { MovieContext } from './tools/MovieContext';
 
 import Layout from './Layout'
 import { routes } from './routes'
-import './App.css';
 
 
 
 function App() {
 
+  const [movieData, setMovieData] = useState({}); // initialize context with an empty object
 
   useEffect(() => {
     fetchUserData()
@@ -34,13 +35,17 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Routes>
-        <Route element={<Layout userData={userData} />}>
-          {routes.map((route) => (
-            <Route key={route.path} path={route.path} element={route.element} />
-          ))}
-        </Route>
-      </Routes>
+      <MovieContext.Provider value={{ movieData }}>
+
+        <Routes>
+          <Route element={<Layout userData={userData} />}>
+            {routes.map((route) => (
+              <Route key={route.path} path={route.path} element={route.element} />
+            ))}
+          </Route>
+        </Routes>
+      </MovieContext.Provider>
+
     </BrowserRouter>
   )
 

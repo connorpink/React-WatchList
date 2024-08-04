@@ -1,9 +1,7 @@
 import { useState } from "react";
 import axios from 'axios';
 import { useLocation, useParams } from 'react-router-dom';
-
-// import '../styles/UserCard.css';
-
+import { MovieContext } from '../tools/MovieContext';
 
 function Movie() {
     const location = useLocation();
@@ -41,44 +39,47 @@ function Movie() {
     return (
         <>
 
+            <MovieContext.Provider value={movie}>
 
 
-            {movie && (
-                <div className="MovieCard detailed">
-                    <div className="splitSpace">
-                        <div className="split">
-                            {(movie.poster_path) ?
-                                <img className="poster" src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`} alt={movie.title} />
-                                :
-                                ("")}
-                        </div>
-                        <div className="split">
+                {movie && (
+                    <div className="MovieCard detailed" >
+                        <div className="splitSpace">
+                            <div className="split">
+                                {(movie.poster_path) ?
+                                    <img className="poster" src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`} alt={movie.title} />
+                                    :
+                                    ("")}
+                            </div>
+                            <div className="split">
 
-                            {/* general information that every movie card should display*/}
-                            <h2>{movie.title}</h2>
-                            <p>{new Date(movie.release_date).toLocaleDateString()} | {roundedRating
-                                +
-                                (Math.abs((roundedRating) - Math.round(movie.vote_average))
-                                    < 0.01 ? ".0" : "")
-                            }/10
+                                {/* general information that every movie card should display*/}
+                                <h2>{movie.title}</h2>
+                                <p>{new Date(movie.release_date).toLocaleDateString()} | {roundedRating
+                                    +
+                                    (Math.abs((roundedRating) - Math.round(movie.vote_average))
+                                        < 0.01 ? ".0" : "")
+                                }/10
 
-                                | movie ID: {movie.id}</p>
-                            <p>{movie.description}</p>
-                            <p><b>Vote Count: </b>{movie.vote_count}</p>
+                                    | movie ID: {movie.id}</p>
+                                <p>{movie.description}</p>
+                                <p><b>Vote Count: </b>{movie.vote_count}</p>
 
 
-                            <button onClick={quickAdd}>quick add to watch list</button>
-                            {error ? (
-                                <span>Error: {error.message}</span>
-                            ) : successMessage ? (
-                                <span>{successMessage}</span>
-                            ) : (
-                                <span />
-                            )}
+                                <button onClick={quickAdd}>quick add to watch list</button>
+                                {error ? (
+                                    <span>Error: {error.message}</span>
+                                ) : successMessage ? (
+                                    <span>{successMessage}</span>
+                                ) : (
+                                    <span />
+                                )}
+                            </div>
                         </div>
                     </div>
-                </div>
-            )}
+                )}
+            </MovieContext.Provider>
+
         </>
     );
 }

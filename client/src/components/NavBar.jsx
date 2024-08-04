@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import "../styles/NavBar.css";
+import SearchBar from "./SearchBar";
 
 export default function NavBar({ userData }) {
     return (
@@ -13,6 +14,7 @@ export default function NavBar({ userData }) {
                         <NavLink to="/watchList">Watch List</NavLink>
 
                         <NavLink to="/profile">Profile</NavLink>
+                        <SearchBar />
 
                     </> : <>
 

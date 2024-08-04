@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unknown-property */
 import '../styles/login.css'
 import '../styles/forms.css'
 import React, { useRef, useState, useEffect } from 'react'

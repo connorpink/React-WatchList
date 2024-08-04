@@ -1,0 +1,10 @@
+.searchDiv {
+  display: inline-flex;
+  float: inline-end;
+}
+.searchDiv button {
+  margin-left: 10px;
+  margin-right: 5px;
+}
+.searchDiv input {
+}
