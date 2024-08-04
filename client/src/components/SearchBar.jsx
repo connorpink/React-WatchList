@@ -1,31 +1,24 @@
 import "../styles/search.css"
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
+// import axios from 'axios';
 import { useState } from "react";
 
 
-export default function SearchBar({ userData }) {
+export default function SearchBar() {
 
     const [searchTerm, setSearchTerm] = useState('');
+    const navigate = useNavigate();
 
 
-    async function handleSearch() {
-        const url = `https://api.themoviedb.org/3/search/movie?query=${searchTerm}&include_adult=false&language=en-US&page=`;
-        axios({
-            method: 'GET',
-            url,
-            headers: {
-                accept: 'application/json',
-                Authorization: `Bearer ${userData.TMDB_api_key} `,
-            },
-        })
-            .then(response => {
-
-            })
+    function handleSearch() {
+        navigate(`/search?SearchTerm=${searchTerm}`);
     }
 
     return (
         <div className="searchDiv">
-            <input type="text" placeholder="Search..." onChange={(event) => { setSearchTerm(event.target.value.toLowerCase()) }} />
+            <input type="text" placeholder="Search..." onChange={(event) => { setSearchTerm(event.target.value.toLowerCase()) }} onKeyDown={(event) => { if (event.key === 'Enter') { handleSearch() } }}
+            />
             <button className="btn btn-primary" onClick={() => handleSearch()}>Search</button>
         </div>
     )
