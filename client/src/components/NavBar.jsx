@@ -10,7 +10,7 @@ export default function NavBar({ userData }) {
                 userData._id != "" ?
                     <>
 
-                        <NavLink to="/projects">Personal Projects</NavLink>
+                        <NavLink to="/watchList">Watch List</NavLink>
 
                         <NavLink to="/profile">Profile</NavLink>
 

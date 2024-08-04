@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import MovieCard from './MovieCard';
 import "../styles/MovieGrid.css";
 

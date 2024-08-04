@@ -6,7 +6,6 @@ import App from './App.jsx'
 import './styles/main.css'
 // import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-// loki development
 // const router = createBrowserRouter(routes, {
 //   basename: import.meta.env.BASE_URL,
 // });

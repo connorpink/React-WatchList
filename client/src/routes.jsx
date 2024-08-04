@@ -1,7 +1,7 @@
 import Home from './routes/Home';
 import Error from './routes/Error';
-import Projects from "./routes/Projects";
-import Project from "./routes/Project";
+import WatchList from "./routes/WatchList";
+import Movie from "./routes/Movie";
 import Profile from "./routes/Profile";
 import Login from "./routes/Login";
 import Register from "./routes/Register";
@@ -15,14 +15,12 @@ export const routes = [
         errorElement: <Error />
     },
     {
-        path: '/projects',
-        element: <Projects />,
+        path: '/watchList',
+        element: <WatchList />,
     },
-
-
     {
-        path: '/project/:projectid',
-        element: <Project />,
+        path: '/movie/:movieid',
+        element: <Movie />,
     },
     {
         path: '/profile',
@@ -38,4 +36,4 @@ export const routes = [
     },
 ];
 
-// export default routes;
+// export default routes;   
