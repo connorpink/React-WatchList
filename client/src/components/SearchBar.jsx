@@ -10,7 +10,6 @@ export default function SearchBar() {
     const [searchTerm, setSearchTerm] = useState('');
     const navigate = useNavigate();
 
-
     function handleSearch() {
         navigate(`/search?SearchTerm=${searchTerm}`);
     }

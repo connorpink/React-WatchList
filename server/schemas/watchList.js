@@ -2,14 +2,10 @@ const mongoose = require("mongoose");
 
 // all data imputed should be relevant to 1 gram
 const watchListSchema = new mongoose.Schema({
-  movieName: String,
-  linkToPoster: String,
-  rating: Number,
-  description: String,
-  ownerId: {
-    type: mongoose.Types.ObjectId,
-    ref: "user",
-  },
+  movieId: Number,
+  priority: Number,
+  notes: String,
+  owner: mongoose.SchemaTypes.ObjectId,
 });
 
-module.exports = mongoose.model("project", projectSchema);
+module.exports = mongoose.model("watchList", watchListSchema);

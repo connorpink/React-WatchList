@@ -1,4 +1,4 @@
 import { createContext } from 'react';
 
-export const MovieContext = createContext();
 
+export const MovieContext = createContext();

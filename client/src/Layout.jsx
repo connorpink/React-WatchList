@@ -10,7 +10,7 @@ export default function Layout({ userData }) {
 
     // console.log('movieData in Layout:', movieData); // testing
 
-    // const backdropPath = movieData.backdrop_path;
+    const backdropPath = movieData.backdrop_path;
     // console.log('backdropPath:', backdropPath); // testing
 
     return (

@@ -85,8 +85,8 @@ app.get("/", (req, res) => {
 const usersRouter = require("./routes/user.route");
 app.use("/user", usersRouter);
 
-// const watchListRouter = require("./routes/watchList.route");
-// app.use("/watchList", watchListRouter);
+const watchListRouter = require("./routes/watchList.route");
+app.use("/watchList", watchListRouter);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {

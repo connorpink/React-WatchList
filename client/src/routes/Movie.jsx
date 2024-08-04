@@ -14,20 +14,16 @@ function Movie() {
     //define async fetch function called quickAdd
     const quickAdd = async () => {
         try {
-            const url = `/server/watchList/${params.movieId}/add`;
+            const url = `/server/watchList/add/${movie.id}/`;
             axios({
                 method: 'PUT',
                 url,
                 headers: {
                     accept: 'application/json',
-                },
-                body: new URLSearchParams({
-                    'notes': '',
-                    'priority': '3',
-                })
+                }
             })
                 .then(response => {
-                    setSuccessMessage(`${movie.title} : ${response.message}`)
+                    setSuccessMessage(`${movie.title} : ${response.data.message}`)
                 })
                 .catch(error => console.error('error:', error));
 
@@ -55,25 +51,21 @@ function Movie() {
 
                                 {/* general information that every movie card should display*/}
                                 <h2>{movie.title}</h2>
-                                <p>{new Date(movie.release_date).toLocaleDateString()} | {roundedRating
-                                    +
-                                    (Math.abs((roundedRating) - Math.round(movie.vote_average))
-                                        < 0.01 ? ".0" : "")
-                                }/10
-
-                                    | movie ID: {movie.id}</p>
+                                <p>{new Date(movie.release_date).toLocaleDateString()} | {roundedRating + (Math.abs((roundedRating) - Math.round(movie.vote_average)) < 0.01 ? ".0" : "")}/10| movie ID: {movie.id}</p>
                                 <p>{movie.description}</p>
                                 <p><b>Vote Count: </b>{movie.vote_count}</p>
 
 
                                 <button onClick={quickAdd}>quick add to watch list</button>
-                                {error ? (
-                                    <span>Error: {error.message}</span>
-                                ) : successMessage ? (
-                                    <span>{successMessage}</span>
-                                ) : (
-                                    <span />
-                                )}
+                                <p>
+                                    {error ? (
+                                        <span>Error: {error.message}</span>
+                                    ) : successMessage ? (
+                                        <span>{successMessage}</span>
+                                    ) : (
+                                        <span />
+                                    )}
+                                </p>
                             </div>
                         </div>
                     </div>
