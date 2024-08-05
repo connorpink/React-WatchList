@@ -5,4 +5,9 @@
 .searchDiv button {
   margin-left: 10px;
   margin-right: 5px;
+  padding: 0.375rem 0.5rem 0.5rem;
+}
+.searchDiv input {
+  border-radius: 0.25rem;
+  padding-left: 1rem;
 }

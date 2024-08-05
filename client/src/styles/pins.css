@@ -1,12 +1,11 @@
 .userPin {
   margin-top: 1.5rem;
-  width: 18rem;
-  height: 24rem;
-  background-color: white;
-}
-.userPin {
   padding: 2rem;
   width: 36rem;
+  height: 24rem;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
 }
 .userPin p {
   font-size: 1rem;
@@ -23,6 +22,7 @@
   width: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
   width: fill-available;
   height: auto;
+  display: inline;
 }
 .profile {
   margin: 1.5rem auto;
@@ -40,14 +40,32 @@
 .profileButtons {
   display: flex;
   flex-direction: column;
+  float: inline-end;
+  align-items: center;
+  margin-top: auto;
+}
+.fields {
+  display: flex;
+  flex-direction: column;
+}
+.userRow {
+  display: flex;
+  flex-direction: row;
+}
+.userRow input {
+  margin: auto;
+  margin-right: 0;
+  height: fit-content;
+  padding: 0.5rem;
+  width: 28%;
 }
 .profileSplit {
   margin: auto;
   width: 15rem;
 }
-
-.profileInfo h1 {
-  margin-bottom: 3rem;
+.profileInfo {
+  display: flex;
+  flex-direction: column;
 }
 
 profile button {

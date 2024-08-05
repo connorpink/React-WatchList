@@ -19,20 +19,6 @@ router.get("/info", (req, res) => {
   }
 });
 
-// takes 2 arguments from url:
-// searchTerm: string
-// amount: int
-router.get("/findUsers", async (req, res) => {
-  const searchTerm = req.query.searchTerm || "";
-  const amount = parseInt(req.query.amount) || 30;
-
-  const data = await ingredients
-    .find({ name: { $regex: new RegExp(searchTerm, "i") } }, { name: 1 })
-    .limit(amount);
-
-  res.end(JSON.stringify(data));
-});
-
 // ------------ User Post Routes ------------
 
 // takes 2 arguments from body:
@@ -152,10 +138,32 @@ router.patch("/updateAccount", (req, res) => {
   users
     .updateOne(
       { _id: req.user._id },
-      { $set: { TMDB_api_key: req.body.TMDB_api_key } }
+      {
+        $set: {
+          TMDB_api_key: req.body.TMDB_api_key,
+          email: req.body.email,
+          username: req.body.username,
+        },
+      }
     )
-    .then((result) => console.log("Update result:", result))
+    .then((result) =>
+      res.send(JSON.stringify({ message: "success", result: result }))
+    )
     .catch((error) => console.error("Error updating:", error));
+
+  // res.send(req.body);
+});
+
+//  route will:
+//   Delete user from Database
+router.delete("/delete", (req, res) => {
+  console.log("user/delete request received");
+
+  // save updated user
+  users
+    .deleteOne({ _id: req.user._id })
+    .then((result) => console.log("delete result:", result))
+    .catch((error) => console.error("Error deleteing:", error));
 
   res.send(req.body);
 });

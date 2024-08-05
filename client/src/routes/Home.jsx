@@ -79,33 +79,31 @@ export default function Home() {
 
     return (
         <main>
-            <div className="App">
-                <header className="App-header">
+
+            <h1 className="center">Watch List</h1>
 
 
-                    {/* if user has IMDB key display movies else display message to add a key */}
-                    {
-                        movies != null ? (
-                            userData.TMDB_api_key ? (
-                                <div>
+            {/* if user has IMDB key display movies else display message to add a key */}
+            {
+                movies != null ? (
+                    userData.TMDB_api_key ? (
+                        <div>
 
-                                    <Pagination onPageChange={handlePageChange} maxPages={maxPages} page={page} />
-                                    <MovieGrid movies={movies} />
-                                    <Pagination onPageChange={handlePageChange} maxPages={maxPages} page={page} />
+                            {/* <Pagination onPageChange={handlePageChange} maxPages={maxPages} page={page} /> */}
+                            <MovieGrid movies={movies} />
+                            <Pagination onPageChange={handlePageChange} maxPages={maxPages} page={page} />
 
-                                </div>
-                            ) : (
-                                < p className="center"> Please add an API key to your account. </p>
+                        </div>
+                    ) : (
+                        < p className="center"> Please add an API key to your account. </p>
 
-                            )
-                        ) : (
-                            <p className="center"> Loading... </p>
-                        )}
-                    <br />
+                    )
+                ) : (
+                    <p className="center"> Loading... </p>
+                )}
+            <br />
 
 
-                </header >
-            </div >
         </main >
     );
 

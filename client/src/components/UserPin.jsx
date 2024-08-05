@@ -1,9 +1,16 @@
 import { useState } from "react";
+import axios from 'axios';
 
 
 function UserPin(userData) {
     // console.log(userData.userData.TMDB_api_key)
     const [userKey, setUserKey] = useState(userData.userData.TMDB_api_key);
+    const [email, setEmail] = useState(userData.userData.email);
+    const [userName, setUserName] = useState(userData.userData.username);
+
+    const [successMessage, setSuccessMessage] = useState(null);
+    const [error, setError] = useState(null);
+
     // handle logout function
     const handleLogout = () => {
         const postRequest = {
@@ -16,44 +23,75 @@ function UserPin(userData) {
                 if (data.message == "success") { location.assign('/') }
             })
             .catch(error => {
-                console.error("unable to logout", error)
+                setError(error);
             })
     };
 
     //handle update account API key
-    const updateAccount = () => {
-        const patchRequest = {
-            method: 'PATCH',
-            body: JSON.stringify({
-                TMDB_api_key: userKey,
-            }),
-            headers: { 'Content-Type': 'application/json' }
+    const updateAccount = async () => {
+        try {
+            const url = `server/user/updateAccount`;
+            const patchResponse = await axios({
+                method: 'PATCH',
+                url,
+                data: {
+                    TMDB_api_key: userKey,
+                    email: email,
+                    username: userName
+                }
+            })
+            console.log(patchResponse);
+
+            setSuccessMessage(`${patchResponse.data.message}`);
+            //redirect back to the watchList page
+        } catch (error) {
+            setError(error);
         }
-        fetch('server/user/updateAccount', patchRequest)
+
+    };
+
+    // handle delete function
+    const handleDelete = () => {
+        const deleteRequest = {
+            method: 'DELETE'
+        }
+        fetch('server/user/delete', deleteRequest)
             .then(response => response.json())
             .then(data => {
-                console.log(data);
-                if (data.message == "success") {
-                    window.location = '/';
-                }
+                // console.log(data);
+                if (data.message == "success") { location.assign('/') }
+            })
+            .catch(error => {
+                setError(error);
             })
     };
 
     return (
         <div className="userPin">
             <div className="profileInfo">
-                <h1>username :</h1> <p>{userData.userData.username}</p>
-                <br />
-                <h1>email :</h1> <p> {userData.userData.email}</p>
-                <br />
-                <textarea rows="5" placeholder="enter your TMDB API key here" defaultValue={userData.userData.TMDB_api_key} onChange={(e) => setUserKey(e.target.value)} />
+                <div className="fields">
+                    <div className="userRow">
+                        <h1>username </h1> <input type="text" defaultValue={userData.userData.username} onChange={(e) => setUserName(e.target.value)} />
+                    </div>
+                    <div className="userRow">
+                        <h1>email </h1> <input type="text" defaultValue={userData.userData.email} onChange={(e) => setEmail(e.target.value)} />
+                    </div>
+                </div>
+                <p>TMDB Api key </p><textarea rows="5" placeholder="enter your TMDB API key here" defaultValue={userData.userData.TMDB_api_key} onChange={(e) => setUserKey(e.target.value)} />
+                <button className="btn btn-primary" onClick={updateAccount}>Update Account </button>
+                {error ? (
+                    <span style={{ color: "red" }}>Error: {error.message}</span>
+                ) : successMessage ? (
+                    <span style={{ color: "green" }}>{successMessage}</span>
+                ) : (
+                    <span />
+                )}
             </div>
-            <div className="profileButtons">
-                <button onClick={updateAccount}>update account -&gt; </button>
-                <button
-                    onClick={handleLogout}
 
-                >logout -&gt; </button>
+            <div className="profileButtons">
+
+                <button className="btn btn-primary" onClick={handleLogout}> Logout </button>
+                <button className="btn btn-primary" onClick={handleDelete}>Delete Account </button>
             </div>
 
 

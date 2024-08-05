@@ -65,9 +65,6 @@ router.patch("/update/:movieId", async (req, res) => {
   const priority = req.body.priority;
   const notes = req.body.notes;
 
-  //             TESTING
-  console.log("user: ", req.user._id);
-  console.log("priority: " + priority + "   notes: " + notes);
   watchList
     .updateOne(
       { movieId: movieId, owner: req.user._id },

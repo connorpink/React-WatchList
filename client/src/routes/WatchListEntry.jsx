@@ -41,7 +41,6 @@ function WatchListEntry() {
         } catch (error) {
             setError(error);
         }
-        setPriority(notes)
     };
 
 
