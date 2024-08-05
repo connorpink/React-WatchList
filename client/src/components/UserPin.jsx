@@ -12,7 +12,7 @@ function UserPin(userData) {
     const [error, setError] = useState(null);
 
 
-    const baseURL = "http://3.22.216.215:4000",
+    const baseURL = "http://3.22.216.215:4000";
     // handle logout function
     const handleLogout = () => {
         axios({ baseURL: baseURL, url: 'user/logout', method: "POST" })
