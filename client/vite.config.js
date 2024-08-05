@@ -7,11 +7,17 @@ export default defineConfig({
   base: "/React-Portfolio",
   server: {
     proxy: {
-      "/server": {
-        target: "http://18.226.28.32:4000",
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/server/, ""),
-      },
+      "/server": "http://18.226.28.32:4000",
     },
   },
+  // code to use when server is local
+  // server: {
+  //   proxy: {
+  //     "/server": {
+  //       target: "http://18.226.28.32:4000",
+  //       changeOrigin: true,
+  //       rewrite: (path) => path.replace(/^\/server/, ""),
+  //     },
+  //   },
+  // },
 });
