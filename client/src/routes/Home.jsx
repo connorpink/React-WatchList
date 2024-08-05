@@ -80,7 +80,7 @@ export default function Home() {
     return (
         <main>
 
-            <h1 className="center">Watch List</h1>
+            <h1 className="center">Popular Movies</h1>
 
 
             {/* if user has IMDB key display movies else display message to add a key */}
