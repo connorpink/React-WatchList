@@ -61,28 +61,28 @@ export default function SearchResults() {
 
 
     return (
+        <main>
+            <div className="App">
+                <header className="App-header">
+                    {/* if not logged in IE userData id is empty then redirect to login page */}
+                    {userData._id === "" && navigate("/login")}
 
-        <div className="App">
-            <header className="App-header">
-                {/* if not logged in IE userData id is empty then redirect to login page */}
-                {userData._id === "" && navigate("/login")}
+                    {/* if user has IMDB key display movies else display message to add a key */}
+                    {userData.TMDB_api_key ? (
+                        <div>
 
-                {/* if user has IMDB key display movies else display message to add a key */}
-                {userData.TMDB_api_key ? (
-                    <div>
+                            {/* <Pagination onPageChange={handlePageChange} maxPages={maxPages} page={page} /> */}
+                            <MovieGrid movies={movies} />
 
-                        {/* <Pagination onPageChange={handlePageChange} maxPages={maxPages} page={page} /> */}
-                        <MovieGrid movies={movies} />
-
-                    </div>
-                ) : (
-                    <p> Please add TMDB api key in user profile </p>
-                )}
-                <br />
+                        </div>
+                    ) : (
+                        <p className="center"> Loading... </p>
+                    )}
+                    <br />
 
 
-            </header >
-        </div >
-
+                </header >
+            </div >
+        </main>
     )
 }

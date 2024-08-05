@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react"
+import { useNavigate } from 'react-router-dom';
+
 import axios from 'axios';
 import MovieGrid from "../components/MovieGrid";
 
@@ -6,10 +8,11 @@ import MovieGrid from "../components/MovieGrid";
 export default function WatchList() {
     const [userData, setUserData] = useState({});
     const [watchList, setWatchList] = useState([])
-    const [watchListData, setWatchListData] = useState([])
+    const [watchListData, setWatchListData] = useState(null)
     const [error, setError] = useState(null);
     const [reRender, setReRender] = useState(false);
 
+    const navigate = useNavigate();
 
 
 
@@ -46,7 +49,7 @@ export default function WatchList() {
                             return {
                                 ...movieData,
                                 additionalInfo: [
-                                    { name: 'Movie ID', details: entry.movieId },
+                                    // { name: 'Movie ID', details: entry.movieId },
                                     { name: 'Priority', details: entry.priority },
                                     { name: 'Notes', details: entry.notes }
                                 ]
@@ -75,6 +78,13 @@ export default function WatchList() {
     }, [reRender]);
 
 
+    // if not logged in IE userData id is empty then redirect to login page 
+    useEffect(() => {
+        if (userData._id === "")
+            navigate('/login')
+    }, [userData]);
+
+
     const link = {
         name: 'Edit Entry',
         location: '/watchListEntry'
@@ -82,15 +92,23 @@ export default function WatchList() {
 
     console.log(watchListData)
     return (
-        <div>
-            {error ? (
-                <p>Error: {error.message}</p>
-            ) : watchListData === null ? (
-                <p>Loading...</p>
-            ) : (
-                <MovieGrid movies={watchListData} link={link} />
-            )}
+        <main>
+            <h1 className="center">Watch List</h1>
 
-        </div>
+            <div>
+                {error ? (
+                    <p>Error: {error.message}</p>
+                ) :
+                    watchListData != null ? (
+                        userData.TMDB_api_key ? (
+                            <MovieGrid movies={watchListData} link={link} />
+                        ) : (
+                            < p className="center"> Please add an API key to your account. </p>
+                        )
+                    ) : (
+                        <p className="center"> Loading... </p>
+                    )}
+            </div>
+        </main>
     )
 }

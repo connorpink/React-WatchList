@@ -6,6 +6,7 @@ import Profile from "./routes/Profile";
 import Login from "./routes/Login";
 import Register from "./routes/Register";
 import SearchResults from "./routes/SearchResults";
+import WatchListEntry from "./routes/WatchListEntry";
 
 //import Login from './Login';
 
@@ -18,6 +19,10 @@ export const routes = [
     {
         path: '/watchList',
         element: <WatchList />,
+    },
+    {
+        path: '/watchListEntry/:movieid',
+        element: <WatchListEntry />,
     },
     {
         path: '/movie/:movieid',

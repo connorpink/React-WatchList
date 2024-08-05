@@ -147,12 +147,6 @@ router.post("/logout", (req, res) => {
 //   return error data or {message:"success"}
 router.patch("/updateAccount", (req, res) => {
   console.log("user/account patch request received");
-  // if (!req.body.TMDB_api_key) {
-  //   return res.status(400).json({ error: "no api key provided" });
-  // }
-  // console.log("body:" + req.body);
-  // console.log("key:" + req.body.TMDB_api_key);
-  // console.log("user:" + req.user);
 
   // save updated user
   users

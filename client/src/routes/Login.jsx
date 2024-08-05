@@ -43,7 +43,7 @@ function Login() {
     }
 
     return (
-        <>
+        <main>
             <div className="loginForm" id="loginForm">
                 <h1>Login</h1>
                 <div className="textInput">
@@ -93,7 +93,7 @@ function Login() {
                 <a href='/register'>create account</a>
 
             </div>
-        </>
+        </main>
     )
 }
 

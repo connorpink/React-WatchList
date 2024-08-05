@@ -10,7 +10,7 @@ export default function Home() {
 
     // state to store user data
     const [userData, setUserData] = useState({})
-    const [movies, setMovies] = useState([])
+    const [movies, setMovies] = useState(null)
     const [maxPages, setMaxPages] = useState()
     const [page, setPage] = useState(1)
 
@@ -71,31 +71,42 @@ export default function Home() {
         fetchUserData()
     }, [page]);
 
-
-
+    // if not logged in IE userData id is empty then redirect to login page 
+    useEffect(() => {
+        if (userData._id === "")
+            navigate('/login')
+    }, [userData]);
 
     return (
-        <div className="App">
-            <header className="App-header">
-                {/* if not logged in IE userData id is empty then redirect to login page */}
-                {userData._id === "" && navigate("/login")}
-
-                {/* if user has IMDB key display movies else display message to add a key */}
-                {userData.TMDB_api_key ? (
-                    <div>
-
-                        <Pagination onPageChange={handlePageChange} maxPages={maxPages} page={page} />
-                        <MovieGrid movies={movies} />
-
-                    </div>
-                ) : (
-                    <p> Please add TMDB api key in user profile </p>
-                )}
-                <br />
+        <main>
+            <div className="App">
+                <header className="App-header">
 
 
-            </header >
-        </div >
+                    {/* if user has IMDB key display movies else display message to add a key */}
+                    {
+                        movies != null ? (
+                            userData.TMDB_api_key ? (
+                                <div>
+
+                                    <Pagination onPageChange={handlePageChange} maxPages={maxPages} page={page} />
+                                    <MovieGrid movies={movies} />
+                                    <Pagination onPageChange={handlePageChange} maxPages={maxPages} page={page} />
+
+                                </div>
+                            ) : (
+                                < p className="center"> Please add an API key to your account. </p>
+
+                            )
+                        ) : (
+                            <p className="center"> Loading... </p>
+                        )}
+                    <br />
+
+
+                </header >
+            </div >
+        </main >
     );
 
 

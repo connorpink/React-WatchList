@@ -32,22 +32,20 @@ function Profile() {
 
 
     return (
+        <main>
+            <h1 className="center">Profile</h1>
 
-        <div className='profile'>
-            {
-                userData._id != "" ?
-                    <>
-
-                        <UserPin userData={userData} />
-
-
-                    </> : <>
-
-                        <h3>You are not logged in...</h3>
-
-                    </>
-            }
-        </div >
+            <div className='profile'>
+                {
+                    userData._id != "" ?
+                        <>
+                            <UserPin userData={userData} />
+                        </> : <>
+                            <h3>You are not logged in...</h3>
+                        </>
+                }
+            </div >
+        </main>
     )
 }
 

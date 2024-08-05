@@ -5,9 +5,12 @@ const mongoConnection = require("../config/connectMongo");
 // const WatchList = mongoConnection.models.watchList;
 const watchList = require("../schemas/watchList");
 
+// returns a list of watchlist entries associated with the user
 router.get("/list", async (req, res) => {
   try {
-    const watchLists = await watchList.find({ owner: req.user._id });
+    const watchLists = await watchList
+      .find({ owner: req.user._id })
+      .sort({ priority: 1 });
     return res.status(200).json(watchLists);
   } catch (error) {
     console.log(error);
@@ -15,6 +18,7 @@ router.get("/list", async (req, res) => {
   }
 });
 
+// adds a new watchList entry to the user's watchlist associated with a movieID
 router.put("/add/:movieId", async (req, res) => {
   try {
     const movieId = req.params.movieId;
@@ -54,4 +58,39 @@ router.put("/add/:movieId", async (req, res) => {
   }
 });
 
+//update the notes and priority of a watchList entry for a movieID
+router.patch("/update/:movieId", async (req, res) => {
+  console.log("received patch request");
+  const movieId = req.params.movieId;
+  const priority = req.body.priority;
+  const notes = req.body.notes;
+
+  //             TESTING
+  console.log("user: ", req.user._id);
+  console.log("priority: " + priority + "   notes: " + notes);
+  watchList
+    .updateOne(
+      { movieId: movieId, owner: req.user._id },
+      { $set: { priority: priority, notes: notes } }
+    )
+    .then((result) =>
+      res.send(JSON.stringify({ message: "success", result: result }))
+    )
+    .catch((error) =>
+      res.status(500).json({ message: "Server Error", error: error })
+    );
+});
+
+//delete a watchList entry for a movieID
+router.delete("/delete/:movieId", async (req, res) => {
+  const movieId = req.params.movieId;
+  watchList
+    .deleteOne({ owner: req.user._id, movieId: movieId })
+    .then((result) =>
+      res.send(JSON.stringify({ message: "success", result: result }))
+    )
+    .catch((error) =>
+      res.status(500).json({ message: "Server Error", error: error })
+    );
+});
 module.exports = router;

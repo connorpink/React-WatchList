@@ -1,6 +1,5 @@
 /* eslint-disable react/no-unknown-property */
 import React, { useRef, useState, useEffect } from 'react'
-//import './login.css' //import already being done by login.jsx, no point in importing it twice
 
 function Register() {
     const errorRef = useRef()
@@ -42,7 +41,7 @@ function Register() {
                     if (!response.ok) { throw response }
                     return response.json()
                 })
-                .then(data => { location.assign('/') })
+                .then(location.assign('/'))
                 .catch(error => {
                     console.error('user fetch request failed:', error)
                     error.json()
@@ -52,7 +51,7 @@ function Register() {
     }
 
     return (
-        <>
+        <main>
             {/* css for loginForm and registerForm will be the same */}
             <div className='loginForm' id="registerForm">
                 <h1>Create Account</h1>
@@ -123,7 +122,7 @@ function Register() {
                 <a href='/login'>Login</a>
 
             </div>
-        </>
+        </main>
     )
 }
 

@@ -49,7 +49,7 @@ function MovieCard({ movie, link }) {
                 <Link to={`/movie/${movie.id}`} state={movie} > Movie Details </Link>
 
                 {/* optional additional link at bottom of card */}
-                {link && <Link to={`${link.location}/${movie.movieID}`} state={movie}> {link.name} </Link>}
+                {link && <Link to={`${link.location}/${movie.id}`} state={movie}> {link.name} </Link>}
 
             </div>
         </div>
