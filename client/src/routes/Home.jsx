@@ -24,13 +24,11 @@ export default function Home() {
     // console.log("current Page" + page);
 
     async function fetchUserData() {
-        await fetch('/server/user/info')
+        await axios({ baseURL: "http://3.22.216.215:4000", url: '/user/info', method: 'GET' })
             .then((response) => {
-                if (!response.ok) { throw new Error(`HTTP error, status: ${response.status}`) }
-                return response.json()
-            })
-            .then(data => {
-                setUserData(data);
+                if (!response.statusText == "OK") { throw new Error(`HTTP error, status: ${response.status}`) }
+                setUserData(response.data);
+
                 // now fetch movies from TMDB API
 
                 const url = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc`;
@@ -39,7 +37,7 @@ export default function Home() {
                     url,
                     headers: {
                         accept: 'application/json',
-                        Authorization: `Bearer ${data.TMDB_api_key} `,
+                        Authorization: `Bearer ${response.data.TMDB_api_key} `,
                     },
                 })
                     .then(response => {

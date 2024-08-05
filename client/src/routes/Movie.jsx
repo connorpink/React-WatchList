@@ -12,8 +12,9 @@ function Movie() {
     //define async fetch function called quickAdd
     const quickAdd = async () => {
         try {
-            const url = `/server/watchList/add/${movie.id}/`;
+            const url = `/watchList/add/${movie.id}/`;
             axios({
+                baseURL: "http://3.22.216.215:4000",
                 method: 'PUT',
                 url,
                 headers: {

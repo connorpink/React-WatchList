@@ -17,16 +17,15 @@ export default function WatchList() {
 
 
     async function getWatchList() {
-        await fetch('/server/user/info')
+        await axios({ baseURL: "http://3.22.216.215:4000", url: '/user/info', method: "GET" })
             .then((response) => {
-                if (!response.ok) { throw new Error(`HTTP error, status: ${response.status}`) }
-                return response.json()
-            })
-            .then(data => {
-                setUserData(data); // set user data
+                if (!response.statusText == "OK") { throw new Error(`HTTP error, status: ${response.status}`) }
+
+                setUserData(response.data); // set user data
                 // now fetch watchList from TMDB API
-                const url = "server/watchList/list"
+                const url = "/watchList/list"
                 axios({
+                    baseURL: "http://3.22.216.215:4000",
                     method: 'GET',
                     url,
                 })

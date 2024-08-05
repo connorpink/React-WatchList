@@ -1,5 +1,6 @@
 /* eslint-disable react/no-unknown-property */
 import React, { useRef, useState, useEffect } from 'react'
+import axios from 'axios';
 
 function Register() {
     const errorRef = useRef()
@@ -27,21 +28,22 @@ function Register() {
         else {
 
             const postRequest = {
+                baseURL: "http://3.22.216.215:4000",
+                url: "/user/register",
                 method: 'POST',
                 headers: { 'Content-type': 'application/json; charset=UTF-8', },
-                body: JSON.stringify({
+                data: {
                     username: username,
                     email: email,
                     password: passwordOne,
-                })
+                }
             }
 
-            fetch("server/user/register", postRequest)
+            axios(postRequest)
                 .then(response => {
-                    if (!response.ok) { throw response }
-                    return response.json()
+                    if (!response.statusTest == "OK") { throw new Error(`failed to create account, repsonse: ${response}`) }
+                    location.assign('/');
                 })
-                .then(location.assign('/'))
                 .catch(error => {
                     console.error('user fetch request failed:', error)
                     error.json()

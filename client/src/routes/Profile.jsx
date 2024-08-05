@@ -1,4 +1,5 @@
 import '../styles/pins.css'
+import axios from 'axios';
 
 
 import React, { useEffect, useState } from 'react'
@@ -15,12 +16,11 @@ function Profile() {
     const [userData, setUserData] = useState({})
     // function to fetch user data from server
     function fetchUserData() {
-        fetch('/server/user/info')
+        axios({ baseURL: "http://3.22.216.215:4000", url: '/user/info', method: "GET" })
             .then((response) => {
-                if (!response.ok) { throw new Error(`HTTP error, status: ${response.status}`) }
-                return response.json()
+                if (!response.statusText == "OK") { throw new Error(`HTTP error, status ${response.status}`) }
+                setUserData(response.data);
             })
-            .then(setUserData)
             .catch(error => {
                 console.error("No user found", error)
                 setUserData({ _id: "", username: "", email: "" })

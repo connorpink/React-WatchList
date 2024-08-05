@@ -2,6 +2,7 @@
 import '../styles/login.css'
 import '../styles/forms.css'
 import React, { useRef, useState, useEffect } from 'react'
+import axios from 'axios';
 
 function Login() {
     const errorRef = useRef()
@@ -23,21 +24,22 @@ function Login() {
         else if (!password) { setErrorMessage("no password given") }
         else {
             const postRequest = {
+                baseURL: "http://3.22.216.215:4000",
                 method: 'POST',
+                url: "/user/login",
                 headers: { 'Content-type': 'application/json; charset=UTF-8', },
-                body: JSON.stringify({
+                data: {
                     username: username,
                     password: password,
-                })
+                }
             }
 
-            fetch("server/user/login", postRequest)
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data)
-                    if (data.message == "badUser") { setErrorMessage("Username not found") }
-                    if (data.message == "badPass") { setErrorMessage("Password incorrect") }
-                    if (data.message == "success") { location.assign('/') }
+            axios(postRequest)
+                .then(response => {
+                    console.log(response.data)
+                    if (response.data.message == "badUser") { setErrorMessage("Username not found") }
+                    if (response.data.message == "badPass") { setErrorMessage("Password incorrect") }
+                    if (response.data.message == "success") { location.assign('/') }
                 })
         }
     }

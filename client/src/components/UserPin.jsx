@@ -11,16 +11,14 @@ function UserPin(userData) {
     const [successMessage, setSuccessMessage] = useState(null);
     const [error, setError] = useState(null);
 
+
+    const baseURL = "http://3.22.216.215:4000",
     // handle logout function
     const handleLogout = () => {
-        const postRequest = {
-            method: 'POST'
-        }
-        fetch('server/user/logout', postRequest)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                if (data.message == "success") { location.assign('/') }
+        axios({ baseURL: baseURL, url: 'user/logout', method: "POST" })
+            .then(response => {
+                console.log(response.data)
+                if (response.data.message == "success") { location.assign('/') }
             })
             .catch(error => {
                 setError(error);
@@ -32,6 +30,7 @@ function UserPin(userData) {
         try {
             const url = `server/user/updateAccount`;
             const patchResponse = await axios({
+                baseURL: baseURL,
                 method: 'PATCH',
                 url,
                 data: {
@@ -52,14 +51,10 @@ function UserPin(userData) {
 
     // handle delete function
     const handleDelete = () => {
-        const deleteRequest = {
-            method: 'DELETE'
-        }
-        fetch('server/user/delete', deleteRequest)
-            .then(response => response.json())
-            .then(data => {
+        axios({ url: 'server/user/delete', method: "DELETE" })
+            .then(response => {
                 // console.log(data);
-                if (data.message == "success") { location.assign('/') }
+                if (response.data.message == "success") { location.assign('/') }
             })
             .catch(error => {
                 setError(error);

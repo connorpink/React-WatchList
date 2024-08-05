@@ -1,6 +1,7 @@
 //App.js
 import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import axios from 'axios';
 
 import Layout from './Layout'
 import { routes } from './routes'
@@ -17,12 +18,11 @@ function App() {
 
 
   function fetchUserData() {
-    fetch('/server/user/info')
+    axios({ baseURL: "http://3.22.216.215:4000", method: "GET", url: '/user/info' })
       .then((response) => {
-        if (!response.ok) { throw new Error(`HTTP error, status: ${response.status}`) }
-        return response.json()
+        if (!response.statusText == "OK") { throw new Error(`HTTP error, status: ${response.status}`) }
+        setUserData(response.data);
       })
-      .then(setUserData)
       .catch(() => {
         setUserData({ _id: "", username: "" })
 

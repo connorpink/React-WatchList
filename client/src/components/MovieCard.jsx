@@ -40,7 +40,7 @@ function MovieCard({ movie, link }) {
             {/* additional information that the parent component may want to have displayed */}
             {movie.additionalInfo && movie.additionalInfo.length > 0 && (
                 movie.additionalInfo.map((info, index) => (
-                    <p key={index}><b>{info.name}:</b> {info.details}</p>
+                    <p key={index}><b>{info.name}:</b> {info.details ? info.details : "N/A"}</p>
                 ))
             )}
 

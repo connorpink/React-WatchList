@@ -15,13 +15,12 @@ export default function SearchResults() {
     const [userData, setUserData] = useState({})
     const [movies, setMovies] = useState([])
     async function fetchUserData() {
-        await fetch('/server/user/info')
+        await axios({ baseURL: "http://3.22.216.215:4000", url: '/user/info', method: "GET" })
             .then((response) => {
-                if (!response.ok) { throw new Error(`HTTP error, status: ${response.status}`) }
-                return response.json()
-            })
-            .then(data => {
-                setUserData(data);
+
+                if (!response.statusText == "OK") { throw new Error(`HTTP error, status: ${response.status}`) }
+
+                setUserData(response.data);
                 // now fetch movies from TMDB API
 
                 const url = `https://api.themoviedb.org/3/search/movie?query=${SearchTerm}&include_adult=false&language=en-US&page=1`;
@@ -30,7 +29,7 @@ export default function SearchResults() {
                     url,
                     headers: {
                         accept: 'application/json',
-                        Authorization: `Bearer ${data.TMDB_api_key} `,
+                        Authorization: `Bearer ${response.data.TMDB_api_key} `,
                     },
                 })
                     .then(response => {

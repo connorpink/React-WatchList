@@ -12,7 +12,6 @@ function WatchListEntry() {
     const location = useLocation();
     const movie = location.state;
 
-    // console.log(movie)
 
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState(null);
@@ -24,8 +23,9 @@ function WatchListEntry() {
         event.preventDefault();
 
         try {
-            const url = `/server/watchList/update/${movie.id}`;
+            const url = `/watchList/update/${movie.id}`;
             const patchResponse = await axios({
+                baseURL: "http://3.22.216.215:4000",
                 method: 'PATCH',
                 url,
                 data: {
@@ -86,7 +86,7 @@ function WatchListEntry() {
 
                                 </select>
                                 <p>notes: </p>
-                                <textarea value={notes} onChange={(event) => setNotes(event.target.value)}></textarea>
+                                <textarea value={notes} placeholder="Add notes..." onChange={(event) => setNotes(event.target.value)}></textarea>
 
                                 <button type="submit">Update Entry</button>
 
