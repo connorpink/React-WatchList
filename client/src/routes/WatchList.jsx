@@ -36,7 +36,7 @@ export default function WatchList() {
                             const url = `https://api.themoviedb.org/3/movie/${entry.movieId}language=en-US`;
                             const movieResponse = await axios({
                                 method: 'GET',
-                                url,
+                                url: url,
                                 headers: {
                                     accept: 'application/json',
                                     Authorization: `Bearer ${userData.TMDB_api_key} `,
