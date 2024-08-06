@@ -46,6 +46,7 @@
 .detailed {
   width: auto;
   margin: 3rem;
+  margin-top: 0;
 }
 
 .MovieCard textarea {

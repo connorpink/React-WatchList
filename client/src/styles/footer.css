@@ -1,4 +1,13 @@
 footer {
+  /* display at the bottom of the page */
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 999 !important;
+  background-color: #f1f1f1;
+  text-align: center;
+  /* bottom: 0; */
+  height: 3rem; /* Set the height of the footer */
   display: flex;
   padding: 1rem;
   justify-content: center;

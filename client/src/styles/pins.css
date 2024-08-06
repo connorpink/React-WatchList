@@ -26,9 +26,10 @@
 }
 .profile {
   margin: 1.5rem auto;
-  width: 50rem;
+  /* width: 50rem; */
   display: flex;
   justify-content: center;
+  margin-bottom: auto;
 }
 
 .profile .buttonDiv {

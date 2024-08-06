@@ -1,9 +1,10 @@
 .settingsPage {
   margin-left: auto;
   margin-right: auto;
-  width: 40.6em;
+  width: auto;
   justify-content: center;
   display: flex;
   margin-top: 1.5rem;
   gap: 0.6rem;
+  flex-wrap: wrap;
 }
