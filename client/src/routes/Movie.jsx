@@ -12,7 +12,7 @@ function Movie() {
     //define async fetch function called quickAdd
     const quickAdd = async () => {
         try {
-            const url = `/proxy/watchList/add/${movie.id}/`;
+            const url = `/proxy/watchList/add/${movie.id}`;
             axios({
                 method: 'POST',
                 url: url,
