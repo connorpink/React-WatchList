@@ -14,7 +14,7 @@ function Movie() {
         try {
             const url = `/proxy/watchList/add/${movie.id}/`;
             axios({
-                method: 'PUT',
+                method: 'POST',
                 url: url,
                 headers: { 'Content-type': 'application/json; charset=UTF-8', },
 
