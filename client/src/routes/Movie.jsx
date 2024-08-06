@@ -16,14 +16,16 @@ function Movie() {
             axios({
                 method: 'PUT',
                 url: url,
-                headers: {
-                    accept: 'application/json',
-                }
+                headers: { 'Content-type': 'application/json; charset=UTF-8', },
+
             })
                 .then(response => {
                     setSuccessMessage(`${movie.title} : ${response.data.message}`)
                 })
-                .catch(error => console.error('error:', error));
+                .catch(error => {
+                    console.error('error:', error)
+                }
+                );
 
         } catch (error) {
             setError(error);
