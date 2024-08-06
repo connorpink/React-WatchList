@@ -19,6 +19,17 @@ function App() {
 
 
   function fetchUserData() {
+    // fetch('server/user/info')
+    //   .then((response) => {
+    //     if (!response.ok) { throw new Error(`HTTP error, status: ${response.status}`) }
+    //     return response.json();
+    //   })
+    //   .then(setUserData)
+    //   .catch(() => {
+    //     setUserData({ _id: "", username: "" })
+
+    //   })
+
     axios({ baseURL: SERVER_URL, method: "GET", url: '/user/info' })
       .then((response) => {
         if (!response.statusText == "OK") { throw new Error(`HTTP error, status: ${response.status}`) }

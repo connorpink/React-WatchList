@@ -6,6 +6,6 @@ RUN npm install --production
 
 COPY . /src
 
-EXPOSE 8085
+EXPOSE 4000
 
-CMD ["node", "index.js"]
+CMD ["npm", "start"]

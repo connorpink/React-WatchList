@@ -73,14 +73,14 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/server", (req, res, next) => {
-  console.log("request made from client");
-  next();
-});
+// app.use("/server", (req, res, next) => {
+//   console.log("request made from client");
+//   next();
+// });
 
-app.get("/", (req, res) => {
-  res.send("Hello from our server!");
-});
+// app.get("/", (req, res) => {
+//   res.send("Hello from our server!");
+// });
 
 const usersRouter = require("./routes/user.route");
 app.use("/user", usersRouter);

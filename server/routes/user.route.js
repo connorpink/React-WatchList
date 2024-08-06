@@ -37,19 +37,15 @@ router.post("/login", (req, res, next) => {
 
   passport.authenticate("local", (error, user, info) => {
     if (error) {
-      console.log("error");
       return res.end(JSON.stringify(error));
     }
     if (!user) {
-      console.log("no user");
-
       return res.end(JSON.stringify(info));
     }
     req.login(user, (error) => {
       if (error) {
         return res.end(error);
       } else {
-        console.log("logged in");
         return res.end(JSON.stringify({ message: "success" }));
       }
     });

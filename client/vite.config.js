@@ -11,7 +11,8 @@ export default defineConfig({
   //   proxy: {
   //     "/server": {
   //       // target: "http://52.15.154.227:4000",
-  //       target: "http://localhost:4000",
+  //       target: "https://server-472zsol2dq-ue.a.run.app",
+  //       // target: "http://localhost:4000",
   //       changeOrigin: true,
   //       rewrite: (path) => path.replace(/^\/server/, ""),
   //     },

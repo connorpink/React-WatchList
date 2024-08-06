@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from 'axios';
 
+import { SERVER_URL } from "../tools/ServerUrl"
+
 
 function UserPin(userData) {
     // console.log(userData.userData.TMDB_api_key)
@@ -12,10 +14,9 @@ function UserPin(userData) {
     const [error, setError] = useState(null);
 
 
-    const baseURL = "http://3.22.216.215:4000";
     // handle logout function
     const handleLogout = () => {
-        axios({ baseURL: baseURL, url: 'user/logout', method: "POST" })
+        axios({ baseURL: SERVER_URL, url: '/user/logout', method: "POST" })
             .then(response => {
                 console.log(response.data)
                 if (response.data.message == "success") { location.assign('/') }
@@ -28,9 +29,9 @@ function UserPin(userData) {
     //handle update account API key
     const updateAccount = async () => {
         try {
-            const url = `server/user/updateAccount`;
+            const url = `/user/updateAccount`;
             const patchResponse = await axios({
-                baseURL: baseURL,
+                baseURL: SERVER_URL,
                 method: 'PATCH',
                 url,
                 data: {
@@ -51,7 +52,7 @@ function UserPin(userData) {
 
     // handle delete function
     const handleDelete = () => {
-        axios({ url: 'server/user/delete', method: "DELETE" })
+        axios({ baseUrl: SERVER_URL, url: '/user/delete', method: "DELETE" })
             .then(response => {
                 // console.log(data);
                 if (response.data.message == "success") { location.assign('/') }
