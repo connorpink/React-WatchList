@@ -30,7 +30,7 @@ function App() {
 
     //   })
 
-    axios({ baseURL: SERVER_URL, method: "GET", url: '/user/info' })
+    axios({ /*baseURL: SERVER_URL, */method: "GET", url: '/proxy/user/info' })
       .then((response) => {
         if (!response.statusText == "OK") { throw new Error(`HTTP error, status: ${response.status}`) }
         setUserData(response.data);

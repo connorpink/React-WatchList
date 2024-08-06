@@ -16,7 +16,7 @@ function UserPin(userData) {
 
     // handle logout function
     const handleLogout = () => {
-        axios({ baseURL: SERVER_URL, url: '/user/logout', method: "POST" })
+        axios({ /*baseURL: SERVER_URL,*/ url: '/proxy/user/logout', method: "POST" })
             .then(response => {
                 console.log(response.data)
                 if (response.data.message == "success") { location.assign('/') }
@@ -29,9 +29,9 @@ function UserPin(userData) {
     //handle update account API key
     const updateAccount = async () => {
         try {
-            const url = `/user/updateAccount`;
+            const url = `/proxy/user/updateAccount`;
             const patchResponse = await axios({
-                baseURL: SERVER_URL,
+                // baseURL: SERVER_URL,
                 method: 'PATCH',
                 url,
                 data: {
@@ -52,7 +52,7 @@ function UserPin(userData) {
 
     // handle delete function
     const handleDelete = () => {
-        axios({ baseUrl: SERVER_URL, url: '/user/delete', method: "DELETE" })
+        axios({ /*baseUrl: SERVER_URL, */url: '/proxy/user/delete', method: "DELETE" })
             .then(response => {
                 // console.log(data);
                 if (response.data.message == "success") { location.assign('/') }

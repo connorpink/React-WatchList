@@ -25,9 +25,9 @@ function Login() {
         else if (!password) { setErrorMessage("no password given") }
         else {
             const postRequest = {
-                baseURL: SERVER_URL,
+                // baseURL: SERVER_URL,
                 method: 'POST',
-                url: "/user/login",
+                url: "/proxy/user/login",
                 headers: { 'Content-type': 'application/json; charset=UTF-8', },
                 data: {
                     username: username,

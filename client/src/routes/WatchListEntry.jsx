@@ -24,9 +24,9 @@ function WatchListEntry() {
         event.preventDefault();
 
         try {
-            const url = `/watchList/update/${movie.id}`;
+            const url = `/proxy/watchList/update/${movie.id}`;
             const patchResponse = await axios({
-                baseURL: SERVER_URL,
+                // baseURL: SERVER_URL,
                 method: 'PATCH',
                 url,
                 data: {
@@ -50,9 +50,9 @@ function WatchListEntry() {
         event.preventDefault();
 
         try {
-            const url = `/watchList/delete/${movie.id}`;
+            const url = `/proxy/watchList/delete/${movie.id}`;
             const deleteResponse = await axios({
-                baseURL: SERVER_URL,
+                // baseURL: SERVER_URL,
                 method: 'DELETE',
                 url,
             })

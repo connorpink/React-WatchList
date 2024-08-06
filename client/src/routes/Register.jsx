@@ -29,8 +29,8 @@ function Register() {
         else {
 
             const postRequest = {
-                baseURL: SERVER_URL,
-                url: "/user/register",
+                // baseURL: SERVER_URL,
+                url: "/proxy/user/register",
                 method: 'POST',
                 headers: { 'Content-type': 'application/json; charset=UTF-8', },
                 data: {

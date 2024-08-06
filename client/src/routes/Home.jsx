@@ -26,7 +26,7 @@ export default function Home() {
     // console.log("current Page" + page);
 
     async function fetchUserData() {
-        await axios({ baseURL: SERVER_URL, url: '/user/info', method: 'GET' })
+        await axios({ /*baseURL: SERVER_URL, */url: '/proxy/user/info', method: 'GET' })
             .then((response) => {
                 if (!response.statusText == "OK") { throw new Error(`HTTP error, status: ${response.status}`) }
                 setUserData(response.data);
