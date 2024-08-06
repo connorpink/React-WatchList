@@ -163,7 +163,10 @@ router.delete("/delete", (req, res) => {
   // save updated user
   users
     .deleteOne({ _id: req.user._id })
-    .then((result) => console.log("delete result:", result))
+    .then((result) => {
+      console.log("delete result:", result);
+      res.end(JSON.stringify({ message: "success" }));
+    })
     .catch((error) => console.error("Error deleting:", error));
 
   res.send(req.body);
