@@ -26,7 +26,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/proxy": {
-        target: "https://server-472zsol2dq-ue.a.run.app",
+        target: "http://localhost:4000",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/proxy/, ""),
       },

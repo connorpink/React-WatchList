@@ -18,7 +18,7 @@ function UserPin(userData) {
         axios({ url: '/proxy/user/logout', method: "POST" })
             .then(response => {
                 console.log(response.data)
-                if (response.data.message == "success") { console.log("recieved logout"); location.assign('/') }
+                if (response.data.message == "success") { console.log("received logout"); location.assign('/') }
             })
             .catch(error => {
                 setError(error);

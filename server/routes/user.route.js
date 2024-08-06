@@ -4,6 +4,7 @@ const genPassword = require("../library/passwordUtils").genPassword;
 const mongoConnection = require("../config/connectMongo");
 const User = mongoConnection.models.user;
 const users = require("../schemas/user");
+const watchList = require("../schemas/watchList");
 
 // ------------ User Get Routes ------------
 
@@ -160,6 +161,20 @@ router.patch("/updateAccount", (req, res) => {
 router.delete("/delete", (req, res) => {
   console.log("user/delete request received");
 
+  //remove associated watchList
+  watchList
+    .deleteMany({ owner: req.user._id })
+    .then((result) => {
+      console.log("watchList delete result:", result);
+    })
+    .catch((error) =>
+      res.status(400).send(
+        JSON.stringify({
+          message: "Error deleting watchlist",
+          error,
+        })
+      )
+    );
   // save updated user
   users
     .deleteOne({ _id: req.user._id })
@@ -167,9 +182,7 @@ router.delete("/delete", (req, res) => {
       console.log("delete result:", result);
       res.end(JSON.stringify({ message: "success" }));
     })
-    .catch((error) => console.error("Error deleting:", error));
-
-  res.send(req.body);
+    .catch((error) => res.end(JSON.stringify({ error })));
 });
 
 module.exports = router;
