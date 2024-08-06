@@ -19,7 +19,7 @@ router.get("/list", async (req, res) => {
 });
 
 // adds a new watchList entry to the user's watchlist associated with a movieID
-router.post("/add/:movieId", async (req, res) => {
+router.put("/add/:movieId", async (req, res) => {
   try {
     const movieId = req.params.movieId;
 
