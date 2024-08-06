@@ -12,6 +12,7 @@ const users = require("../schemas/user");
 // route will:
 //   return data for user that is currently logged in
 router.get("/info", (req, res) => {
+  console.log("user check");
   if (req.user) {
     return res.status(200).json(req.user);
   } else {
@@ -36,15 +37,19 @@ router.post("/login", (req, res, next) => {
 
   passport.authenticate("local", (error, user, info) => {
     if (error) {
+      console.log("error");
       return res.end(JSON.stringify(error));
     }
     if (!user) {
+      console.log("no user");
+
       return res.end(JSON.stringify(info));
     }
     req.login(user, (error) => {
       if (error) {
         return res.end(error);
       } else {
+        console.log("logged in");
         return res.end(JSON.stringify({ message: "success" }));
       }
     });
@@ -163,7 +168,7 @@ router.delete("/delete", (req, res) => {
   users
     .deleteOne({ _id: req.user._id })
     .then((result) => console.log("delete result:", result))
-    .catch((error) => console.error("Error deleteing:", error));
+    .catch((error) => console.error("Error deleting:", error));
 
   res.send(req.body);
 });

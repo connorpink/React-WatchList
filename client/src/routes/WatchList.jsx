@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
 import MovieGrid from "../components/MovieGrid";
+import { SERVER_URL } from "../tools/ServerUrl"
 
 
 export default function WatchList() {
@@ -17,7 +18,7 @@ export default function WatchList() {
 
 
     async function getWatchList() {
-        await axios({ baseURL: "http://3.22.216.215:4000", url: '/user/info', method: "GET" })
+        await axios({ baseURL: SERVER_URL, url: '/user/info', method: "GET" })
             .then((response) => {
                 if (!response.statusText == "OK") { throw new Error(`HTTP error, status: ${response.status}`) }
 
@@ -25,7 +26,7 @@ export default function WatchList() {
                 // now fetch watchList from TMDB API
                 const url = "/watchList/list"
                 axios({
-                    baseURL: "http://3.22.216.215:4000",
+                    baseURL: SERVER_URL,
                     method: 'GET',
                     url,
                 })

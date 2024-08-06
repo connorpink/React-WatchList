@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import React, { useEffect, useState } from 'react'
 import UserPin from '../components/UserPin'
+import { SERVER_URL } from "../tools/ServerUrl"
 
 function Profile() {
 
@@ -16,7 +17,7 @@ function Profile() {
     const [userData, setUserData] = useState({})
     // function to fetch user data from server
     function fetchUserData() {
-        axios({ baseURL: "http://3.22.216.215:4000", url: '/user/info', method: "GET" })
+        axios({ baseURL: SERVER_URL, url: '/user/info', method: "GET" })
             .then((response) => {
                 if (!response.statusText == "OK") { throw new Error(`HTTP error, status ${response.status}`) }
                 setUserData(response.data);

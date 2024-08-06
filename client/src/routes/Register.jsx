@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unknown-property */
 import React, { useRef, useState, useEffect } from 'react'
 import axios from 'axios';
+import { SERVER_URL } from "../tools/ServerUrl"
 
 function Register() {
     const errorRef = useRef()
@@ -28,7 +29,7 @@ function Register() {
         else {
 
             const postRequest = {
-                baseURL: "http://3.22.216.215:4000",
+                baseURL: SERVER_URL,
                 url: "/user/register",
                 method: 'POST',
                 headers: { 'Content-type': 'application/json; charset=UTF-8', },

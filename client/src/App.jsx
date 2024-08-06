@@ -6,6 +6,7 @@ import axios from 'axios';
 import Layout from './Layout'
 import { routes } from './routes'
 
+import { SERVER_URL } from "./tools/ServerUrl"
 
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
 
 
   function fetchUserData() {
-    axios({ baseURL: "http://3.22.216.215:4000", method: "GET", url: '/user/info' })
+    axios({ baseURL: SERVER_URL, method: "GET", url: '/user/info' })
       .then((response) => {
         if (!response.statusText == "OK") { throw new Error(`HTTP error, status: ${response.status}`) }
         setUserData(response.data);

@@ -3,6 +3,7 @@ import '../styles/login.css'
 import '../styles/forms.css'
 import React, { useRef, useState, useEffect } from 'react'
 import axios from 'axios';
+import { SERVER_URL } from "../tools/ServerUrl"
 
 function Login() {
     const errorRef = useRef()
@@ -24,7 +25,7 @@ function Login() {
         else if (!password) { setErrorMessage("no password given") }
         else {
             const postRequest = {
-                baseURL: "http://3.22.216.215:4000",
+                baseURL: SERVER_URL,
                 method: 'POST',
                 url: "/user/login",
                 headers: { 'Content-type': 'application/json; charset=UTF-8', },

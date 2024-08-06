@@ -5,6 +5,7 @@ import axios from 'axios';
 import MovieCard from '../components/MovieCard';
 
 import "../styles/watchList.css"
+import { SERVER_URL } from "../tools/ServerUrl"
 
 function WatchListEntry() {
     const navigate = useNavigate();
@@ -25,7 +26,7 @@ function WatchListEntry() {
         try {
             const url = `/watchList/update/${movie.id}`;
             const patchResponse = await axios({
-                baseURL: "http://3.22.216.215:4000",
+                baseURL: SERVER_URL,
                 method: 'PATCH',
                 url,
                 data: {
@@ -49,8 +50,9 @@ function WatchListEntry() {
         event.preventDefault();
 
         try {
-            const url = `/server/watchList/delete/${movie.id}`;
+            const url = `/watchList/delete/${movie.id}`;
             const deleteResponse = await axios({
+                baseURL: SERVER_URL,
                 method: 'DELETE',
                 url,
             })

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
+import { SERVER_URL } from "../tools/ServerUrl"
 
 function Movie() {
     const location = useLocation();
@@ -14,7 +15,7 @@ function Movie() {
         try {
             const url = `/watchList/add/${movie.id}/`;
             axios({
-                baseURL: "http://3.22.216.215:4000",
+                baseURL: SERVER_URL,
                 method: 'PUT',
                 url,
                 headers: {
