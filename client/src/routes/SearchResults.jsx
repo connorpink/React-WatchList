@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import MovieGrid from "../components/MovieGrid";
 
 import axios from 'axios';
-import { SERVER_URL } from "../tools/ServerUrl"
 
 
 export default function SearchResults() {
@@ -16,7 +15,7 @@ export default function SearchResults() {
     const [userData, setUserData] = useState({})
     const [movies, setMovies] = useState([])
     async function fetchUserData() {
-        await axios({ /*baseURL: SERVER_URL, */url: '/proxy/user/info', method: "GET" })
+        await axios({ url: '/proxy/user/info', method: "GET" })
             .then((response) => {
 
                 if (!response.statusText == "OK") { throw new Error(`HTTP error, status: ${response.status}`) }

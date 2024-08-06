@@ -1,1 +1,0 @@
-export const SERVER_URL = "https://server-472zsol2dq-ue.a.run.app";

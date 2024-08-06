@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
 import MovieGrid from "../components/MovieGrid";
-import { SERVER_URL } from "../tools/ServerUrl"
 
 
 export default function WatchList() {
@@ -18,17 +17,16 @@ export default function WatchList() {
 
 
     async function getWatchList() {
-        await axios({ /*baseURL: SERVER_URL,*/ url: '/proxy/user/info', method: "GET" })
+        await axios({ url: '/proxy/user/info', method: "GET" })
             .then((response) => {
                 if (!response.statusText == "OK") { throw new Error(`HTTP error, status: ${response.status}`) }
 
                 setUserData(response.data); // set user data
                 // now fetch watchList from TMDB API
-                const url = "/watchList/list"
+                const url = "/proxy/watchList/list"
                 axios({
-                    baseURL: SERVER_URL,
                     method: 'GET',
-                    url,
+                    url: url,
                 })
                     .then(async response => {
                         setWatchList(response.data);// set watch list data

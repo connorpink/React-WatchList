@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import MovieGrid from "../components/MovieGrid";
 import Pagination from "../components/Pagination";
 
-import { SERVER_URL } from "../tools/ServerUrl"
 
 export default function Home() {
     const navigate = useNavigate();
@@ -26,7 +25,7 @@ export default function Home() {
     // console.log("current Page" + page);
 
     async function fetchUserData() {
-        await axios({ /*baseURL: SERVER_URL, */url: '/proxy/user/info', method: 'GET' })
+        await axios({ url: '/proxy/user/info', method: 'GET' })
             .then((response) => {
                 if (!response.statusText == "OK") { throw new Error(`HTTP error, status: ${response.status}`) }
                 setUserData(response.data);

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
-import { SERVER_URL } from "../tools/ServerUrl"
 
 function Movie() {
     const location = useLocation();

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import axios from 'axios';
 
-import { SERVER_URL } from "../tools/ServerUrl"
 
 
 function UserPin(userData) {
@@ -16,7 +15,7 @@ function UserPin(userData) {
 
     // handle logout function
     const handleLogout = () => {
-        axios({ /*baseURL: SERVER_URL,*/ url: '/proxy/user/logout', method: "POST" })
+        axios({ url: '/proxy/user/logout', method: "POST" })
             .then(response => {
                 console.log(response.data)
                 if (response.data.message == "success") { location.assign('/') }
@@ -31,7 +30,6 @@ function UserPin(userData) {
         try {
             const url = `/proxy/user/updateAccount`;
             const patchResponse = await axios({
-                // baseURL: SERVER_URL,
                 method: 'PATCH',
                 url,
                 data: {
@@ -52,7 +50,7 @@ function UserPin(userData) {
 
     // handle delete function
     const handleDelete = () => {
-        axios({ /*baseUrl: SERVER_URL, */url: '/proxy/user/delete', method: "DELETE" })
+        axios({ url: '/proxy/user/delete', method: "DELETE" })
             .then(response => {
                 // console.log(data);
                 if (response.data.message == "success") { location.assign('/') }
