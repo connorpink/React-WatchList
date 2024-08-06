@@ -18,7 +18,7 @@ function UserPin(userData) {
         axios({ url: '/proxy/user/logout', method: "POST" })
             .then(response => {
                 console.log(response.data)
-                if (response.data.message == "success") { location.assign('/') }
+                if (response.data.message == "success") { console.log("recieved logout"); location.assign('/') }
             })
             .catch(error => {
                 setError(error);
@@ -52,7 +52,7 @@ function UserPin(userData) {
     const handleDelete = () => {
         axios({ url: '/proxy/user/delete', method: "DELETE" })
             .then(response => {
-                // console.log(data);
+                console.log(response);
                 if (response.data.message == "success") { location.assign('/') }
             })
             .catch(error => {
