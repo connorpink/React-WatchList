@@ -29,7 +29,7 @@ function Register() {
 
             const postRequest = {
                 url: "/proxy/user/register",
-                method: 'PUT',
+                method: 'POST',
                 headers: { 'Content-type': 'application/json; charset=UTF-8', },
                 data: {
                     username: username,
