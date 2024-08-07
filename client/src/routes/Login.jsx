@@ -2,6 +2,8 @@
 import '../styles/login.css'
 import '../styles/forms.css'
 import React, { useRef, useState, useEffect } from 'react'
+import { Link } from "react-router-dom";
+
 import axios from 'axios';
 
 function Login() {
@@ -91,7 +93,8 @@ function Login() {
                 > Login </button>
                 <p ref={errorRef} className={errorMessage ? "error" : "hidden"} area-live="assertive">{errorMessage}</p>
                 <p>Don&apos;t have an account?</p>
-                <a href='/register'>create account</a>
+                {/* <a href='/register'>create account</a> */}
+                <Link to={`/register`} > Create account</Link>
 
             </div>
         </main>
