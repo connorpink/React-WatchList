@@ -6,6 +6,7 @@
   padding: 3rem;
   padding-bottom: 4rem;
   color: white;
+  -webkit-backdrop-filter: blur(12px) brightness(40%);
   backdrop-filter: blur(12px) brightness(40%);
   border: 0.1rem solid #57534e;
   border-radius: 0.375rem;
