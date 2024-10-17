@@ -7,4 +7,4 @@ add a TMDB API key in your account once you have one created and the app will us
 ## Testing
 This site requires TMDB api key to function properly. To circumvent getting your own key, use this test account 
 {user: test, password: test}
-### [Test site here]([/guides/content/editing-an-existing-page](https://react-portfolio-theta-snowy.vercel.app/))
+### [Test site here](https://react-portfolio-theta-snowy.vercel.app/)
