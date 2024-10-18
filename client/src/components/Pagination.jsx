@@ -12,10 +12,11 @@ export default function Pagination({ onPageChange, maxPages, page }) {
 
 
     return (
+
         <div className="pagination">
-            <button className="btn btn-primary" onClick={() => handlePageChange(0)}>Previous</button >
+            <button className="btn btn-info pageButton" onClick={() => handlePageChange(0)}>Previous</button >
             {maxPages > 1 && <span>Page {page}</span>}
-            <button className="btn btn-primary" onClick={() => handlePageChange(1)}> Next </button>
+            <button className="btn btn-info pageButton" onClick={() => handlePageChange(1)}> Next </button>
         </div>
     )
 }

@@ -72,7 +72,7 @@ function UserPin(userData) {
                     </div>
                 </div>
                 <p>TMDB Api key </p><textarea rows="5" placeholder="enter your TMDB API key here" defaultValue={userData.userData.TMDB_api_key} onChange={(e) => setUserKey(e.target.value)} />
-                <button className="btn btn-primary" onClick={updateAccount}>Update Account </button>
+                <button className="btn btn-success" onClick={updateAccount}>Update Account </button>
                 {error ? (
                     <span style={{ color: "red" }}>Error: {error.message}</span>
                 ) : successMessage ? (
@@ -84,8 +84,8 @@ function UserPin(userData) {
 
             <div className="profileButtons">
 
-                <button className="btn btn-primary" onClick={handleLogout}> Logout </button>
-                <button className="btn btn-primary" onClick={handleDelete}>Delete Account </button>
+                <button className="btn btn-warning profileButton" onClick={handleLogout}> Logout </button>
+                <button className="btn btn-danger" onClick={handleDelete}>Delete Account </button>
             </div>
 
 

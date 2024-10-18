@@ -117,3 +117,21 @@
 .loginForm .checkboxInput input {
   accent-color: #34d399;
 }
+
+.profileButton {
+  margin: 1rem !important;
+}
+.deleteButton {
+  background-color: #b35032;
+}
+.profileInfo {
+  /* margin-left: auto;
+  margin-right: auto; */
+  position: relative;
+  padding: 1em;
+  padding-bottom: 2em;
+  box-sizing: border-box;
+  background-color: white;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  border-radius: 0.75em;
+}
