@@ -1,5 +1,10 @@
 
-
-{
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+{  
+  "rewrites": [
+      { 
+        "source": "/proxy/:match*",
+        "destination": "https://server-472zsol2dq-ue.a.run.app/:match*"
+      },
+      { "source": "/(.*)", "destination": "/index.html" }
+ ]
 }
