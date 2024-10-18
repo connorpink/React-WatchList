@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
+import AdditionalMovieInfo from './AdditionalMovieInfo';
 
 
 import '../styles/MovieCard.css';
@@ -23,8 +24,6 @@ link: {
 
 function MovieCard({ movie, link }) {
 
-    const roundedRating = Math.round(movie.vote_average * 10) / 10// rounded value
-
     // console.log(movie.genre_ids)
     return (
         <div className="MovieCard">
@@ -34,8 +33,8 @@ function MovieCard({ movie, link }) {
                 ("")}
             {/* general information that every movie card should display*/}
             <h2>{movie.title}</h2>
-            <p>{new Date(movie.release_date).toLocaleDateString()} | {roundedRating + (Math.abs((roundedRating) - Math.round(movie.vote_average)) < 0.01 ? ".0" : "")}/10 | Movie ID: {movie.id}</p>
-            <p>{movie.description}</p>
+            <AdditionalMovieInfo movie={movie} />
+            <p>{movie.overview}</p>
 
             {/* additional information that the parent component may want to have displayed */}
             {movie.additionalInfo && movie.additionalInfo.length > 0 && (

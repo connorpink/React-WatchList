@@ -48,7 +48,7 @@ export default function Home() {
                             genre_ids: movie.genre_ids,
                             title: movie.title,
                             release_date: movie.release_date,
-                            description: movie.overview,
+                            overview: movie.overview,
                             vote_average: movie.vote_average,
                             vote_count: movie.vote_count,
                             poster_path: movie.poster_path,

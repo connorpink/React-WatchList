@@ -1,7 +1,7 @@
-.navbar > a {
+.NavElements > a {
   display: inline-block;
   box-sizing: border-box;
-  margin-left: 1em;
+  margin-left: 1rem;
   text-decoration: none;
   text-align: center;
   color: white;
@@ -10,9 +10,23 @@
 a.active {
   text-decoration: underline;
 }
+a {
+  text-decoration: none;
+  color: white;
+}
 
 .navbar {
   background-color: black;
   padding: 1em;
   font-size: 1.5rem;
+  flex-wrap: nowrap;
+  /* display: block; */
+}
+
+.NavLink {
+  margin-right: 1rem;
+}
+.modalSearch {
+  display: flex;
+  justify-content: center;
 }

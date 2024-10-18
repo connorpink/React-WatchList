@@ -188,3 +188,8 @@ input[type="number"] {
   margin-top: 0.5rem;
   font-size: 2rem;
 }
+.linkID {
+  text-decoration: none;
+  color: black;
+  text-decoration: underline;
+}

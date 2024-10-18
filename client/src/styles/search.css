@@ -10,4 +10,20 @@
 .searchDiv input {
   border-radius: 0.25rem;
   padding-left: 1rem;
+  font-size: initial;
+}
+
+.searchIcon {
+  display: none;
+  float: inline-end;
+}
+@media only screen and (max-width: 760px) {
+  /* adjust this value as needed */
+  .searchDiv {
+    display: none; /* hide the search bar on small screens */
+  }
+  .searchIcon {
+    color: white;
+    display: inline-flex;
+  }
 }

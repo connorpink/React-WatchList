@@ -5,24 +5,30 @@ import SearchBar from "./SearchBar";
 export default function NavBar({ userData }) {
     return (
         <nav className="navbar">
-            <NavLink to='/'>Home</NavLink>
+
+
 
             {
                 userData._id != "" ?
                     <>
+                        <div className="NavElements">
+                            <NavLink to='/'>Home</NavLink>
+                            <NavLink to="/watchList">Watch List</NavLink>
 
-                        <NavLink to="/watchList">Watch List</NavLink>
-
-                        <NavLink to="/profile">Profile</NavLink>
+                            <NavLink to="/profile">Profile</NavLink>
+                        </div>
                         <SearchBar />
 
                     </> : <>
-
-                        <NavLink to="/login">Login</NavLink>
-                        <NavLink to="/register">Create Account</NavLink>
-
+                        <div className="NavElements">
+                            <NavLink to='/'>Home</NavLink>
+                            <NavLink to="/login">Login</NavLink>
+                            <NavLink to="/register">Create Account</NavLink>
+                        </div>
                     </>
+
             }
+
         </nav>
     );
 }

@@ -91,7 +91,9 @@ router.post("/register", async (req, res) => {
   const newUser = new User({
     username: req.body.username,
     email: req.body.email,
-    TMDB_api_key: "",
+    TMDB_api_key:
+      " eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzZjkwMDkyOTg2NDQ2YWVkNTdkYWVmODE1Y2RkOWVjMyIsIm5iZiI6MTcyMjY0MDE0OS4wMDYwNTcsInN1YiI6IjY2MmYzMDc2ZjZmZDE4MDEyODIzMmU1MSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.7upvdEAAZuftl5YFm7_R5A5mpbsRSTlLGWb4o2EaGM8",
+    //^ for production this would be a Key acquired by the user from TVDB but for this project I am using my own key for demonstration.
     hash: hash,
     salt: salt,
   });
