@@ -29,6 +29,7 @@ export default defineConfig({
         target: "http://localhost:4000",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/proxy/, ""),
+        rewriteWsOrigin: true,
       },
     },
   },
