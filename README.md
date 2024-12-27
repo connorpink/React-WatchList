@@ -9,3 +9,16 @@ add a TMDB API key in your account once you have one created and the app will us
 
 This site requires TMDB api key to function properly. To circumvent getting your own key, use this test account 
 {user: test, password: test}
+
+
+## TODO
+
+- [ ] Make Search Bar separate for when on WatchList page
+- [ ] add sort and filter options
+- [ ] add pagination to watch list
+- [ ] make movie poster images clickable
+- [ ] make watch list entries editable in the card without needing a separate page
+- [ ] quick add to watch list button should not display when movie is already on watch list
+- [ ] add genre data and other data for movies
+- [ ] add Completed WatchList with ratings
+  - [ ] add mark as watched to movie pages with a rating option to mark a movie as watched   
