@@ -32,7 +32,9 @@ function MovieCard({ movie, link }) {
     return (
         <div className="MovieCard">
             {(movie.poster_path) ?
-                <img className="poster" src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`} alt={movie.title} />
+                <Link to={`/movie/${movie.id}`} state={movie}>
+                    <img className="poster" src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`} alt={movie.title} />
+                </Link>
                 :
                 ("")}
             {/* general information that every movie card should display*/}

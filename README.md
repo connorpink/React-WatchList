@@ -16,7 +16,7 @@ This site requires TMDB api key to function properly. To circumvent getting your
 - [ ] Make Search Bar separate for when on WatchList page
 - [ ] add sort and filter options
 - [ ] add pagination to watch list
-- [ ] make movie poster images clickable
+- [x] make movie poster images clickable
 - [ ] make watch list entries editable in the card without needing a separate page
 - [ ] quick add to watch list button should not display when movie is already on watch list
 - [ ] add genre data and other data for movies
