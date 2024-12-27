@@ -57,6 +57,26 @@ function Movie() {
         }
     };
 
+    // remove from watchlist function
+    const removeFromWatchlist = async () => {
+
+        try {
+            const url = `/proxy/watchList/delete/${movie.id}`;
+            const deleteResponse = await axios({
+                method: 'DELETE',
+                url: url,
+            })
+            console.log(deleteResponse);
+            if (deleteResponse.statusText == "OK") {
+                setIsOnWatchlist(!isOnWatchlist);
+                setSuccessMessage(`${deleteResponse.data.message}`);
+                setTimeout(() => setSuccessMessage(''), 3000);
+            }
+        } catch (error) {
+            alert(`Error: ${error}`);
+        }
+    };
+
     return (
         <main style={{ backgroundImage: `url(https://image.tmdb.org/t/p/original${movie.backdrop_path})` }}>
             {movie && (
@@ -74,6 +94,15 @@ function Movie() {
                                 <p>{movie.overview}</p>
                                 {!isOnWatchlist && (
                                     <button onClick={quickAdd}>Quick Add to Watchlist</button>
+                                )}
+                                {isOnWatchlist && (
+                                    <button
+                                        className="watchlist-indicator"
+                                        onClick={removeFromWatchlist}
+                                        title="Click to remove from watchlist"
+                                    >
+                                        <span>✓ On your watchlist</span>
+                                    </button>
                                 )}
                                 {successMessage && <div className="success-message">{successMessage}</div>}
                             </div>

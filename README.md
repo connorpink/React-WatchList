@@ -18,7 +18,10 @@ This site requires TMDB api key to function properly. To circumvent getting your
 - [ ] add pagination to watch list
 - [x] make movie poster images clickable
 - [ ] make watch list entries editable in the card without needing a separate page
-- [ ] quick add to watch list button should not display when movie is already on watch list
+- [x] quick add to watch list button should not display when movie is already on watch list
+  - [x] add something to indicate movie is already on Watchlist
+    - [x] remove from watchlist button on movie page
+      - [ ] later when testing is no longer needed a single button with an icon is all thats needed for this like with watchlisting in plex
 - [ ] add genre data and other data for movies
 - [ ] add Completed WatchList with ratings
   - [ ] add mark as watched to movie pages with a rating option to mark a movie as watched   

@@ -113,13 +113,28 @@ router.patch("/update/:movieId", async (req, res) => {
 //delete a watchList entry for a movieID
 router.delete("/delete/:movieId", async (req, res) => {
   const movieId = req.params.movieId;
-  watchList
-    .deleteOne({ owner: req.user._id, movieId: movieId })
-    .then((result) =>
-      res.send(JSON.stringify({ message: "success", result: result }))
-    )
-    .catch((error) =>
-      res.status(500).json({ message: "Server Error", error: error })
+
+  try {
+    const entry = await watchList.findOne({
+      owner: req.user._id,
+      movieId: movieId,
+    });
+    if (!entry) {
+      return res.status(404).json({ message: "Movie not found in watchlist" });
+    }
+
+    const result = await watchList.deleteOne({
+      owner: req.user._id,
+      movieId: movieId,
+    });
+    res.send(
+      JSON.stringify({
+        message: `${entry.title} removed`,
+        result: result,
+      })
     );
+  } catch (error) {
+    res.status(500).json({ message: "Server Error", error: error });
+  }
 });
 module.exports = router;
