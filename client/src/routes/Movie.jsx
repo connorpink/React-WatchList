@@ -7,9 +7,7 @@ import AdditionalMovieInfo from '../components/AdditionalMovieInfo';
 function Movie() {
     const location = useLocation();
     const movie = location.state;
-
-    const [error, setError] = useState(null);
-    const [successMessage, setSuccessMessage] = useState(null);
+    const [successMessage, setSuccessMessage] = useState("");
 
     //define async fetch function called quickAdd
     const quickAdd = async () => {
@@ -29,7 +27,10 @@ function Movie() {
                 },
             })
                 .then(response => {
-                    setSuccessMessage(`${movie.title} : ${response.data.message}`)
+                    // Set success message
+                    setSuccessMessage(`${movie.title} : ${response.data.message}`);
+                    // Clear success message after 3 seconds
+                    setTimeout(() => setSuccessMessage(""), 5000);
                 })
                 .catch(error => {
                     console.error('error:', error)
@@ -37,7 +38,9 @@ function Movie() {
                 );
 
         } catch (error) {
-            setError(error);
+            // setError(error);
+            // Show error alert
+            alert(`Error: ${error}`);
         }
     }
     return (
@@ -64,15 +67,7 @@ function Movie() {
 
 
                                 <button onClick={quickAdd}>quick add to watch list</button>
-                                <p>
-                                    {error ? (
-                                        <span>Error: {error.message}</span>
-                                    ) : successMessage ? (
-                                        <span>{successMessage}</span>
-                                    ) : (
-                                        <span />
-                                    )}
-                                </p>
+                                {successMessage && <div className="success-message">{successMessage}</div>}
                             </div>
                         </div>
                     </div>

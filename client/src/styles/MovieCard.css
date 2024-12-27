@@ -56,3 +56,14 @@
 .MovieCard .poster {
   width: -webkit-fill-available;
 }
+.success-message {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+  padding: 10px;
+  margin-top: 10px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-weight: bold;
+  text-align: center;
+}
