@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 
 const watchListSchema = new mongoose.Schema({
   movieId: Number,
-  // id: Number, // this is also movieId, used for movieCard components
   priority: Number,
   notes: String,
   title: String,

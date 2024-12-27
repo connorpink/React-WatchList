@@ -1,15 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import AdditionalMovieInfo from '../components/AdditionalMovieInfo';
-
 
 function Movie() {
     const location = useLocation();
     const movie = location.state;
     const [successMessage, setSuccessMessage] = useState("");
+    const [isOnWatchlist, setIsOnWatchlist] = useState(true);
 
-    //define async fetch function called quickAdd
+    useEffect(() => {
+        // Fetch watchlist status when component mounts
+        const fetchWatchlistStatus = async () => {
+            try {
+                const response = await axios.get(`/proxy/watchList/status/${movie.id}`);
+                setIsOnWatchlist(response.data.isOnWatchlist);
+            } catch (error) {
+                console.error('Error fetching watchlist status:', error);
+            }
+        };
+
+        fetchWatchlistStatus();
+    }, [movie.id]);
+
+    // Define async fetch function called quickAdd
     const quickAdd = async () => {
         try {
             const url = `/proxy/watchList/add/${movie.id}`;
@@ -30,43 +44,37 @@ function Movie() {
                     // Set success message
                     setSuccessMessage(`${movie.title} : ${response.data.message}`);
                     // Clear success message after 3 seconds
-                    setTimeout(() => setSuccessMessage(""), 5000);
+                    setTimeout(() => setSuccessMessage(""), 4000);
+                    // Update watchlist status
+                    setIsOnWatchlist(true);
                 })
                 .catch(error => {
-                    console.error('error:', error)
-                }
-                );
+                    console.error('error:', error);
+                });
 
         } catch (error) {
-            // setError(error);
-            // Show error alert
             alert(`Error: ${error}`);
         }
-    }
+    };
+
     return (
-
-
         <main style={{ backgroundImage: `url(https://image.tmdb.org/t/p/original${movie.backdrop_path})` }}>
             {movie && (
                 <div className="center">
-                    <div className="MovieCard detailed" >
+                    <div className="MovieCard detailed">
                         <div className="splitSpace">
                             <div className="split">
-                                {(movie.poster_path) ?
-                                    <img className="poster" src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`} alt={movie.title} />
-                                    :
-                                    ("")}
+                                {movie.poster_path && (
+                                    <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} />
+                                )}
                             </div>
                             <div className="split">
-
-                                {/* general information that every movie card should display*/}
-                                <h2>{movie.title}</h2>
+                                <h1>{movie.title}</h1>
                                 <AdditionalMovieInfo movie={movie} />
                                 <p>{movie.overview}</p>
-                                <p><b>Vote Count: </b>{movie.vote_count}</p>
-
-
-                                <button onClick={quickAdd}>quick add to watch list</button>
+                                {!isOnWatchlist && (
+                                    <button onClick={quickAdd}>Quick Add to Watchlist</button>
+                                )}
                                 {successMessage && <div className="success-message">{successMessage}</div>}
                             </div>
                         </div>

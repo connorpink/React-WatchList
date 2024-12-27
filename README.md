@@ -22,3 +22,4 @@ This site requires TMDB api key to function properly. To circumvent getting your
 - [ ] add genre data and other data for movies
 - [ ] add Completed WatchList with ratings
   - [ ] add mark as watched to movie pages with a rating option to mark a movie as watched   
+- [ ] now there is notes and priority on normal movieCards

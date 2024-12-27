@@ -22,7 +22,7 @@ link: {
 }
 */
 
-function MovieCard({ movie, link }) {
+function MovieCard({ movie, link, isWatchlist }) {
     // For watchList
     // watchList entries do not have id they instead have movieId
     if (!movie.id) {
@@ -48,8 +48,14 @@ function MovieCard({ movie, link }) {
                     <p key={index}><b>{info.name}:</b> {info.details ? info.details : "N/A"}</p>
                 ))
             )}
-            <p><b>Priority:</b> {movie.priority ? movie.priority : "N/A"}</p>
-            <p><b>Notes:</b> {movie.notes ? movie.notes : "N/A"}</p>
+
+            {/* watchlist specific information */}
+            {isWatchlist && (
+                <>
+                    <p><b>Priority:</b> {movie.priority ? movie.priority : "N/A"}</p>
+                    <p><b>Notes:</b> {movie.notes ? movie.notes : "N/A"}</p>
+                </>
+            )}
             <div className='links'>
                 {/* link to more information */}
                 <Link to={`/movie/${movie.id}`} state={movie} > Movie Details </Link>

@@ -18,6 +18,26 @@ router.get("/list", async (req, res) => {
   }
 });
 
+// checks if a given movie is in the user's watchlist
+router.get("/status/:movieId", async (req, res) => {
+  try {
+    const movieId = req.params.movieId;
+
+    // Find the user's existing watch list entries
+    const watchLists = await watchList.find({ owner: req.user._id });
+
+    // Check if the movie is already in their watch list
+    const isOnWatchlist = watchLists.some(
+      (watchList) => watchList.movieId.toString() === movieId
+    );
+
+    return res.status(200).json({ isOnWatchlist });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Server Error" });
+  }
+});
+
 // adds a new watchList entry to the user's watchlist associated with a movieID
 router.put("/add/:movieId", async (req, res) => {
   try {

@@ -69,7 +69,7 @@ export default function WatchList() {
                 ) :
                     watchList != null ? (
                         userData.TMDB_api_key ? (
-                            <MovieGrid movies={watchList} link={link} />
+                            <MovieGrid movies={watchList} link={link} isWatchlist={true} />
                         ) : (
                             < p className="center"> Please add an API key to your account. </p>
                         )

@@ -24,11 +24,11 @@ list: {
 button will be applied to every card
 */
 
-export default function MovieGrid({ movies, link }) {
+export default function MovieGrid({ movies, link, isWatchlist }) {
     return (
         <section className="MovieGrid">
             {movies.map((movie, index) => (
-                <MovieCard key={index} movie={movie} link={link} />
+                <MovieCard key={index} movie={movie} link={link} isWatchlist={isWatchlist} />
             ))}
         </section>
     )
