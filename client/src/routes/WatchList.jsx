@@ -8,7 +8,7 @@ import MovieGrid from "../components/MovieGrid";
 export default function WatchList() {
     const [userData, setUserData] = useState({});
     const [watchList, setWatchList] = useState([])
-    const [watchListData, setWatchListData] = useState(null)
+    // const [watchListData, setWatchListData] = useState(null)
     const [error, setError] = useState(null);
     const [reRender, setReRender] = useState(false);
 
@@ -28,40 +28,10 @@ export default function WatchList() {
                     method: 'GET',
                     url: url,
                 })
-                    .then(async response => {
-                        setWatchList(response.data);// set watch list data
-
-                        // get movie data 
-                        const movieList = await Promise.all(watchList.map(async entry => {
-                            const url = `https://api.themoviedb.org/3/movie/${entry.movieId}language=en-US`;
-                            const movieResponse = await axios({
-                                method: 'GET',
-                                url: url,
-                                headers: {
-                                    accept: 'application/json',
-                                    Authorization: `Bearer ${userData.TMDB_api_key} `,
-                                },
-                            })
-
-                            const movieData = movieResponse.data
-                            return {
-                                ...movieData,
-                                additionalInfo: [
-                                    // { name: 'Movie ID', details: entry.movieId },
-                                    { name: 'Priority', details: entry.priority },
-                                    { name: 'Notes', details: entry.notes }
-                                ]
-                            };
-                        }))
-                        console.log(movieList); // console log movie/watchlist data
-                        //set movielist/watchlist data 
-                        setWatchListData(movieList);
+                    .then((response) => {
+                        setWatchList(response.data);
                         setReRender(true);
                     })
-                    .catch(error => {
-                        console.error('error:', error);
-                        setError(error);
-                    });
             })
 
             .catch(error => {
@@ -88,7 +58,7 @@ export default function WatchList() {
         location: '/watchListEntry'
     }
 
-    console.log(watchListData)
+    console.log(watchList)
     return (
         <main>
             <h1 className="center">Watch List</h1>
@@ -97,9 +67,9 @@ export default function WatchList() {
                 {error ? (
                     <p>Error: {error.message}</p>
                 ) :
-                    watchListData != null ? (
+                    watchList != null ? (
                         userData.TMDB_api_key ? (
-                            <MovieGrid movies={watchListData} link={link} />
+                            <MovieGrid movies={watchList} link={link} />
                         ) : (
                             < p className="center"> Please add an API key to your account. </p>
                         )

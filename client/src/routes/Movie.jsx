@@ -19,7 +19,14 @@ function Movie() {
                 method: 'PUT',
                 url: url,
                 headers: { 'Content-type': 'application/json; charset=UTF-8', },
-
+                data: {
+                    movieTitle: movie.title,
+                    releaseDate: movie.release_date,
+                    rating: movie.vote_average,
+                    overview: movie.overview,
+                    posterPath: movie.poster_path,
+                    backdropPath: movie.backdrop_path
+                },
             })
                 .then(response => {
                     setSuccessMessage(`${movie.title} : ${response.data.message}`)

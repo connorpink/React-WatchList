@@ -41,6 +41,12 @@ router.put("/add/:movieId", async (req, res) => {
         .status(200)
         .json({ message: "Movie already in your watch list" });
     }
+    const movieTitle = req.body.movieTitle;
+    const releaseDate = req.body.releaseDate;
+    const rating = req.body.rating;
+    const overview = req.body.overview;
+    const posterPath = req.body.posterPath;
+    const backdropPath = req.body.backdropPath;
 
     // Create a new WatchList entry
     const newWatchListEntry = new watchList({
@@ -48,6 +54,12 @@ router.put("/add/:movieId", async (req, res) => {
       movieId: movieId,
       priority: 10, // Initialize rating to 0
       notes: "", // Initialize description as empty string
+      title: movieTitle,
+      release_date: releaseDate,
+      vote_average: rating,
+      overview: overview,
+      poster_path: posterPath,
+      backdrop_path: backdropPath,
     });
     await newWatchListEntry.save();
 

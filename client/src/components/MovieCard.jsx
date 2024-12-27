@@ -23,7 +23,11 @@ link: {
 */
 
 function MovieCard({ movie, link }) {
-
+    // For watchList
+    // watchList entries do not have id they instead have movieId
+    if (!movie.id) {
+        movie.id = movie.movieId;
+    }
     // console.log(movie.genre_ids)
     return (
         <div className="MovieCard">
@@ -42,7 +46,8 @@ function MovieCard({ movie, link }) {
                     <p key={index}><b>{info.name}:</b> {info.details ? info.details : "N/A"}</p>
                 ))
             )}
-
+            <p><b>Priority:</b> {movie.priority ? movie.priority : "N/A"}</p>
+            <p><b>Notes:</b> {movie.notes ? movie.notes : "N/A"}</p>
             <div className='links'>
                 {/* link to more information */}
                 <Link to={`/movie/${movie.id}`} state={movie} > Movie Details </Link>

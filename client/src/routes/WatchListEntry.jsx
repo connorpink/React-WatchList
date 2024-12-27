@@ -15,8 +15,10 @@ function WatchListEntry() {
 
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState(null);
-    const [priority, setPriority] = useState(movie.additionalInfo[0].details);
-    const [notes, setNotes] = useState(movie.additionalInfo[1].details);
+    // const [priority, setPriority] = useState(movie.additionalInfo[0].details);
+    // const [notes, setNotes] = useState(movie.additionalInfo[1].details);
+    const [priority, setPriority] = useState(movie.priority)
+    const [notes, setNotes] = useState(movie.notes)
 
     // for priority
     const handleSubmit = async (event) => {
