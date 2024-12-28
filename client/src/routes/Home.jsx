@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useEffect, useState } from "react";
 import MovieGrid from "../components/MovieGrid";
 import Pagination from "../components/Pagination";
+import SortControls from "../components/SortControls";
 
 
 export default function Home() {
@@ -15,7 +16,9 @@ export default function Home() {
     const [maxPages, setMaxPages] = useState()
     const [page, setPage] = useState(1)
 
-
+    const [sortBy, setSortBy] = useState("popularity");
+    const [sortByOrder, setSortByOrder] = useState("desc");
+    const [filterBy, setFilterBy] = useState("popularity");
 
     function handlePageChange(newPage) {
         setPage(newPage)
@@ -32,7 +35,7 @@ export default function Home() {
 
                 // now fetch movies from TMDB API
 
-                const url = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc`;
+                const url = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=${sortBy}.${sortByOrder}`;
                 axios({
                     method: 'GET',
                     url: url,
@@ -68,7 +71,7 @@ export default function Home() {
     // function to fetch user data from server
     useEffect(() => {
         fetchUserData()
-    }, [page]);
+    }, [page, sortBy, sortByOrder]);
 
     // if not logged in IE userData id is empty then redirect to login page 
     useEffect(() => {
@@ -80,7 +83,7 @@ export default function Home() {
         <main>
 
             <h1 className="center">Popular Movies</h1>
-
+            <SortControls setSortBy={setSortBy} setSortByOrder={setSortByOrder} setPage={setPage} page={page} maxPages={maxPages} />
 
             {/* if user has IMDB key display movies else display message to add a key */}
             {

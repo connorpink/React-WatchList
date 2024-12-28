@@ -101,7 +101,7 @@ function Movie() {
                                         onClick={removeFromWatchlist}
                                         title="Click to remove from watchlist"
                                     >
-                                        <span>✓ On your watchlist</span>
+                                        <span>✓ On your Watchlist</span>
                                     </button>
                                 )}
                                 {successMessage && <div className="success-message">{successMessage}</div>}
