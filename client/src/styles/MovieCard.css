@@ -36,10 +36,10 @@
 }
 .MovieCard p:not(.detailed p) {
   display: -webkit-box;
-  -webkit-line-clamp: 3; /* Number of lines to show */
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  line-clamp: 3; /* Add this standard property for compatibility */
+  line-clamp: 3;
 }
 
 .detailed {
