@@ -2,10 +2,8 @@ const router = require("express").Router();
 const passport = require("passport");
 
 const mongoConnection = require("../config/connectMongo");
-// const WatchList = mongoConnection.models.watchList;
 const watchList = require("../schemas/watchList");
 
-// returns a list of watchlist entries associated with the user
 router.get("/list", async (req, res) => {
   try {
     const watchLists = await watchList
@@ -18,15 +16,12 @@ router.get("/list", async (req, res) => {
   }
 });
 
-// checks if a given movie is in the user's watchlist
 router.get("/status/:movieId", async (req, res) => {
   try {
     const movieId = req.params.movieId;
 
-    // Find the user's existing watch list entries
     const watchLists = await watchList.find({ owner: req.user._id });
 
-    // Check if the movie is already in their watch list
     const isOnWatchlist = watchLists.some(
       (watchList) => watchList.movieId.toString() === movieId
     );
@@ -38,7 +33,6 @@ router.get("/status/:movieId", async (req, res) => {
   }
 });
 
-// adds a new watchList entry to the user's watchlist associated with a movieID
 router.put("/add/:movieId", async (req, res) => {
   try {
     const movieId = req.params.movieId;
@@ -48,11 +42,9 @@ router.put("/add/:movieId", async (req, res) => {
       return res.status(500).json({ message: "Server Error" });
     }
 
-    // Find the user's existing watch list entries
     const watchLists = await watchList.find({ owner: req.user._id });
     console.log(watchLists);
 
-    // Check if the movie is already in their watch list
     const existingWatchListEntry = watchLists.find(
       (watchList) => watchList.movieId.toString() === movieId
     );
@@ -68,12 +60,11 @@ router.put("/add/:movieId", async (req, res) => {
     const posterPath = req.body.posterPath;
     const backdropPath = req.body.backdropPath;
 
-    // Create a new WatchList entry
     const newWatchListEntry = new watchList({
       owner: req.user._id,
       movieId: movieId,
-      priority: 10, // Initialize rating to 0
-      notes: "", // Initialize description as empty string
+      priority: 10,
+      notes: "",
       title: movieTitle,
       release_date: releaseDate,
       vote_average: rating,
@@ -90,7 +81,6 @@ router.put("/add/:movieId", async (req, res) => {
   }
 });
 
-//update the notes and priority of a watchList entry for a movieID
 router.patch("/update/:movieId", async (req, res) => {
   console.log("received patch request");
   const movieId = req.params.movieId;
@@ -110,7 +100,6 @@ router.patch("/update/:movieId", async (req, res) => {
     );
 });
 
-//delete a watchList entry for a movieID
 router.delete("/delete/:movieId", async (req, res) => {
   const movieId = req.params.movieId;
 

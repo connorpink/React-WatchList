@@ -1,10 +1,9 @@
 import { useState } from "react";
 import axios from 'axios';
-
-
+import { useAuth } from "../auth";
 
 function UserPin(userData) {
-    // console.log(userData.userData.TMDB_api_key)
+    const { setUser, refreshUser } = useAuth();
     const [userKey, setUserKey] = useState(userData.userData.TMDB_api_key);
     const [email, setEmail] = useState(userData.userData.email);
     const [userName, setUserName] = useState(userData.userData.username);
@@ -12,20 +11,16 @@ function UserPin(userData) {
     const [successMessage, setSuccessMessage] = useState(null);
     const [error, setError] = useState(null);
 
-
-    // handle logout function
     const handleLogout = () => {
         axios({ url: '/proxy/user/logout', method: "POST" })
             .then(response => {
-                console.log(response.data)
-                if (response.data.message == "success") { console.log("received logout"); location.assign('/') }
+                if (response.data.message == "success") setUser(null)
             })
             .catch(error => {
                 setError(error);
             })
     };
 
-    //handle update account API key
     const updateAccount = async () => {
         try {
             const url = `/proxy/user/updateAccount`;
@@ -38,22 +33,19 @@ function UserPin(userData) {
                     username: userName
                 }
             })
-            console.log(patchResponse);
-
-            setSuccessMessage(`${patchResponse.data.message}`);
-            //redirect back to the watchList page
+            setError(null);
+            setSuccessMessage(patchResponse.data.message === "success" ? "Account updated" : patchResponse.data.message);
+            await refreshUser();
         } catch (error) {
             setError(error);
         }
-
     };
 
-    // handle delete function
     const handleDelete = () => {
+        if (!window.confirm("Delete your account and watch list? This can't be undone.")) return;
         axios({ url: '/proxy/user/delete', method: "DELETE" })
             .then(response => {
-                console.log(response);
-                if (response.data.message == "success") { location.assign('/') }
+                if (response.data.message == "success") setUser(null)
             })
             .catch(error => {
                 setError(error);
@@ -87,7 +79,6 @@ function UserPin(userData) {
                 <button className="btn btn-warning profileButton" onClick={handleLogout}> Logout </button>
                 <button className="btn btn-danger" onClick={handleDelete}>Delete Account </button>
             </div>
-
 
         </div >
     )

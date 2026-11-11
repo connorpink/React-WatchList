@@ -1,29 +1,37 @@
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import AdditionalMovieInfo from '../components/AdditionalMovieInfo';
+import Spinner from '../components/Spinner';
+import { useAuth } from '../auth';
+import { tmdbGet, toMovie } from '../tmdb';
 
 function Movie() {
     const location = useLocation();
-    const movie = location.state;
+    const { movieid } = useParams();
+    const { user } = useAuth();
+
+    const [movie, setMovie] = useState(location.state);
+    const [loadError, setLoadError] = useState(null);
     const [successMessage, setSuccessMessage] = useState("");
-    const [isOnWatchlist, setIsOnWatchlist] = useState(true);
+    const [isOnWatchlist, setIsOnWatchlist] = useState(null);
 
     useEffect(() => {
-        // Fetch watchlist status when component mounts
-        const fetchWatchlistStatus = async () => {
-            try {
-                const response = await axios.get(`/proxy/watchList/status/${movie.id}`);
-                setIsOnWatchlist(response.data.isOnWatchlist);
-            } catch (error) {
-                console.error('Error fetching watchlist status:', error);
-            }
-        };
+        if (location.state) { setMovie(location.state); return; }
+        tmdbGet(`/movie/${movieid}`, user.TMDB_api_key)
+            .then((response) => setMovie(toMovie(response.data)))
+            .catch((error) => setLoadError(error));
+    }, [movieid, location.state, user.TMDB_api_key]);
 
-        fetchWatchlistStatus();
-    }, [movie.id]);
+    useEffect(() => {
+        axios.get(`/proxy/watchList/status/${movieid}`)
+            .then((response) => setIsOnWatchlist(response.data.isOnWatchlist))
+            .catch((error) => console.error('Error fetching watchlist status:', error));
+    }, [movieid]);
 
-    // Define async fetch function called quickAdd
+    if (loadError) return <main><p className="emptyState">Couldn&apos;t load this movie.</p></main>;
+    if (!movie) return <main><Spinner /></main>;
+
     const quickAdd = async () => {
         try {
             const url = `/proxy/watchList/add/${movie.id}`;
@@ -41,34 +49,27 @@ function Movie() {
                 },
             })
                 .then(response => {
-                    // Set success message
                     setSuccessMessage(`${movie.title} : ${response.data.message}`);
-                    // Clear success message after 3 seconds
                     setTimeout(() => setSuccessMessage(""), 4000);
-                    // Update watchlist status
                     setIsOnWatchlist(true);
                 })
                 .catch(error => {
                     console.error('error:', error);
                 });
-
         } catch (error) {
             alert(`Error: ${error}`);
         }
     };
 
-    // remove from watchlist function
     const removeFromWatchlist = async () => {
-
         try {
             const url = `/proxy/watchList/delete/${movie.id}`;
             const deleteResponse = await axios({
                 method: 'DELETE',
                 url: url,
             })
-            console.log(deleteResponse);
-            if (deleteResponse.statusText == "OK") {
-                setIsOnWatchlist(!isOnWatchlist);
+            if (deleteResponse.status === 200) {
+                setIsOnWatchlist(false);
                 setSuccessMessage(`${deleteResponse.data.message}`);
                 setTimeout(() => setSuccessMessage(''), 3000);
             }
@@ -92,10 +93,10 @@ function Movie() {
                                 <h1>{movie.title}</h1>
                                 <AdditionalMovieInfo movie={movie} />
                                 <p>{movie.overview}</p>
-                                {!isOnWatchlist && (
+                                {isOnWatchlist === false && (
                                     <button onClick={quickAdd}>Quick Add to Watchlist</button>
                                 )}
-                                {isOnWatchlist && (
+                                {isOnWatchlist === true && (
                                     <button
                                         className="watchlist-indicator"
                                         onClick={removeFromWatchlist}

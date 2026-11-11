@@ -1,113 +1,93 @@
-import { useNavigate } from 'react-router-dom';
-
-import axios from 'axios';
 import { useEffect, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import MovieGrid from "../components/MovieGrid";
 import Pagination from "../components/Pagination";
 import SortControls from "../components/SortControls";
+import { MovieGridSkeleton } from "../components/Spinner";
+import { useAuth } from "../auth";
+import { tmdbGet, toMovie } from "../tmdb";
 
+// TMDB's discover endpoint only serves the first 500 pages
+const TMDB_MAX_PAGES = 500;
 
 export default function Home() {
-    const navigate = useNavigate();
+    const { user } = useAuth();
+    const apiKey = user.TMDB_api_key?.trim();
 
-    // state to store user data
-    const [userData, setUserData] = useState({})
-    const [movies, setMovies] = useState(null)
-    const [maxPages, setMaxPages] = useState()
-    const [page, setPage] = useState(1)
+    const [searchParams, setSearchParams] = useSearchParams();
+    const sortBy = searchParams.get("sort") || "popularity";
+    const sortOrder = searchParams.get("order") || "desc";
+    const page = Number(searchParams.get("page")) || 1;
 
-    const [sortBy, setSortBy] = useState("popularity");
-    const [sortByOrder, setSortByOrder] = useState("desc");
-    const [filterBy, setFilterBy] = useState("popularity");
+    const [movies, setMovies] = useState(null);
+    const [maxPages, setMaxPages] = useState(1);
+    const [error, setError] = useState(null);
 
-    function handlePageChange(newPage) {
-        setPage(newPage)
-        fetchUserData();
+    function update(changes) {
+        const next = { sort: sortBy, order: sortOrder, page, ...changes };
+        setSearchParams({ sort: next.sort, order: next.order, page: String(next.page) });
     }
 
-    // console.log("current Page" + page);
+    useEffect(() => {
+        if (!apiKey) return;
+        let cancelled = false;
+        setMovies(null);
+        setError(null);
 
-    async function fetchUserData() {
-        await axios({ url: '/proxy/user/info', method: 'GET' })
+        tmdbGet("/discover/movie", apiKey, {
+            include_adult: false,
+            include_video: false,
+            page,
+            sort_by: `${sortBy}.${sortOrder}`,
+            // without a vote floor, "rating" and "title" sorts are dominated by obscure entries
+            "vote_count.gte": sortBy === "popularity" ? undefined : 200,
+        })
             .then((response) => {
-                if (!response.statusText == "OK") { throw new Error(`HTTP error, status: ${response.status}`) }
-                setUserData(response.data);
-
-                // now fetch movies from TMDB API
-
-                const url = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=${sortBy}.${sortByOrder}`;
-                axios({
-                    method: 'GET',
-                    url: url,
-                    headers: {
-                        accept: 'application/json',
-                        Authorization: `Bearer ${response.data.TMDB_api_key} `,
-                    },
-                })
-                    .then(response => {
-                        setMaxPages(response.data.total_pages);
-                        setMovies(response.data.results.map(movie => ({
-                            id: movie.id,
-                            genre_ids: movie.genre_ids,
-                            title: movie.title,
-                            release_date: movie.release_date,
-                            overview: movie.overview,
-                            vote_average: movie.vote_average,
-                            vote_count: movie.vote_count,
-                            poster_path: movie.poster_path,
-                            backdrop_path: movie.backdrop_path,
-                        })));
-                    })
-                    .catch(error => console.error('error:', error));
+                if (cancelled) return;
+                setMaxPages(Math.min(response.data.total_pages, TMDB_MAX_PAGES));
+                setMovies(response.data.results.map(toMovie));
             })
-            .catch(error => {
-                console.error("No user found", error)
-                setUserData({ _id: "", username: "", email: "" })
-            })
+            .catch((err) => {
+                if (cancelled) return;
+                console.error(err);
+                setError("Couldn't load movies from TMDB. Check that your API key is valid.");
+            });
+
+        return () => { cancelled = true };
+    }, [apiKey, page, sortBy, sortOrder]);
+
+    if (!apiKey) {
+        return (
+            <main>
+                <div className="emptyState">
+                    <h1>Almost there</h1>
+                    <p>Add a TMDB API Read Access Token on your <Link to="/profile" style={{ color: "var(--base-color)", textDecoration: "underline" }}>profile</Link> to browse movies.</p>
+                </div>
+            </main>
+        );
     }
-
-    // console.log(maxPages);
-
-    // function to fetch user data from server
-    useEffect(() => {
-        fetchUserData()
-    }, [page, sortBy, sortByOrder]);
-
-    // if not logged in IE userData id is empty then redirect to login page 
-    useEffect(() => {
-        if (userData._id === "")
-            navigate('/login')
-    }, [userData]);
 
     return (
         <main>
+            <h1 className="center">Discover Movies</h1>
+            <SortControls
+                sortBy={sortBy}
+                sortOrder={sortOrder}
+                onSortByChange={(value) => update({ sort: value, page: 1 })}
+                onSortOrderChange={(value) => update({ order: value, page: 1 })}
+            />
 
-            <h1 className="center">Popular Movies</h1>
-            <SortControls setSortBy={setSortBy} setSortByOrder={setSortByOrder} setPage={setPage} page={page} maxPages={maxPages} />
-
-            {/* if user has IMDB key display movies else display message to add a key */}
-            {
-                movies != null ? (
-                    userData.TMDB_api_key ? (
-                        <div>
-
-                            {/* <Pagination onPageChange={handlePageChange} maxPages={maxPages} page={page} /> */}
-                            <MovieGrid movies={movies} />
-                            <Pagination onPageChange={handlePageChange} maxPages={maxPages} page={page} />
-
-                        </div>
-                    ) : (
-                        < p className="center"> Please add an API key to your account. </p>
-
-                    )
-                ) : (
-                    <p className="center"> Loading... </p>
-                )}
+            {error ? (
+                <p className="emptyState">{error}</p>
+            ) : movies === null ? (
+                <MovieGridSkeleton />
+            ) : (
+                <>
+                    <MovieGrid movies={movies} />
+                    <Pagination page={page} maxPages={maxPages} onPageChange={(p) => update({ page: p })} />
+                </>
+            )}
             <br />
-
-
-        </main >
+        </main>
     );
-
-
 }

@@ -24,17 +24,14 @@ body {
 }
 
 main {
-  /* position: absolute; */
   margin: 0rem;
   padding: 0rem;
   padding-top: 1rem;
   min-height: 100vh;
-  /* overflow-x: hidden; */
 
-  background-size: cover; /* <------ */
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
-  /* margin-bottom: 6rem; */
 }
 
 h3 {
@@ -44,8 +41,6 @@ h3 {
   font-weight: 100;
   font-size: 24px;
 }
-
-/* ------------ other css ------------ */
 
 .hidden {
   display: none;
@@ -97,14 +92,11 @@ h3 {
   pointer-events: none;
 }
 
-/* remove arrows from number input */
-/* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-/* Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
 }
@@ -127,43 +119,21 @@ input[type="number"] {
   width: 0.45rem;
 }
 
-/* Customize the thumb */
 ::-webkit-scrollbar-thumb {
-  background-color: #717171; /* color of the scrollbar thumb */
-  border-radius: 5px; /* rounded corners */
+  background-color: #717171;
+  border-radius: 5px;
 }
 
-/* Hover state of the thumb */
 ::-webkit-scrollbar-thumb:hover {
   background-color: #575757;
 }
 
-/* Customize the track */
 ::-webkit-scrollbar-track {
-  background: transparent; /* color of the scrollbar track */
+  background: transparent;
 }
 
-/* Handle when scrollbar is in a drag state */
 ::-webkit-scrollbar-thumb:active {
   background-color: #4a4a4a;
-}
-
-.splitSpace {
-  display: flex;
-  width: 100%;
-  margin: 0rem;
-  padding: 0rem;
-  gap: 1rem;
-}
-
-.split {
-  flex-grow: 0.8;
-}
-
-@media only screen and (max-width: 720px) {
-  .splitSpace {
-    display: inline;
-  }
 }
 
 .btn-primary {

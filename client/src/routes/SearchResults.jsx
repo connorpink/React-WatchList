@@ -1,87 +1,44 @@
 import "../styles/search.css"
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import MovieGrid from "../components/MovieGrid";
-
-import axios from 'axios';
-
+import { MovieGridSkeleton } from "../components/Spinner";
+import { useAuth } from "../auth";
+import { tmdbGet, toMovie } from "../tmdb";
 
 export default function SearchResults() {
-    const navigate = useNavigate();
+    const { user } = useAuth();
     const [searchParams] = useSearchParams();
-    const SearchTerm = searchParams.get("SearchTerm");
+    const searchTerm = searchParams.get("SearchTerm") || "";
 
+    const [movies, setMovies] = useState(null)
+    const [error, setError] = useState(null)
 
-    const [userData, setUserData] = useState({})
-    const [movies, setMovies] = useState([])
-    async function fetchUserData() {
-        await axios({ url: '/proxy/user/info', method: "GET" })
-            .then((response) => {
-
-                if (!response.statusText == "OK") { throw new Error(`HTTP error, status: ${response.status}`) }
-
-                setUserData(response.data);
-                // now fetch movies from TMDB API
-
-                const url = `https://api.themoviedb.org/3/search/movie?query=${SearchTerm}&include_adult=false&language=en-US&page=1`;
-                axios({
-                    method: 'GET',
-                    url,
-                    headers: {
-                        accept: 'application/json',
-                        Authorization: `Bearer ${response.data.TMDB_api_key} `,
-                    },
-                })
-                    .then(response => {
-                        setMovies(response.data.results.map(movie => ({
-                            id: movie.id,
-                            genre_ids: movie.genre_ids,
-                            title: movie.title,
-                            release_date: movie.release_date,
-                            overview: movie.overview,
-                            vote_average: movie.vote_average,
-                            vote_count: movie.vote_count,
-                            poster_path: movie.poster_path,
-                            backdrop_path: movie.backdrop_path,
-                        })));
-                    })
-                    .catch(error => console.error('error:', error));
-            })
-            .catch(error => {
-                console.error("No user found", error)
-                setUserData({ _id: "", username: "", email: "" })
-            })
-    }
-
-    // function to fetch user data from server
     useEffect(() => {
-        fetchUserData()
-    }, [SearchTerm]);
+        if (!searchTerm) { setMovies([]); return; }
+        let cancelled = false;
+        setMovies(null);
+        setError(null);
 
+        tmdbGet("/search/movie", user.TMDB_api_key, { query: searchTerm, include_adult: false, page: 1 })
+            .then((response) => { if (!cancelled) setMovies(response.data.results.map(toMovie)) })
+            .catch((err) => { if (!cancelled) setError(err) });
+
+        return () => { cancelled = true };
+    }, [searchTerm, user.TMDB_api_key]);
 
     return (
         <main>
-            <div className="App">
-                <header className="App-header">
-                    {/* if not logged in IE userData id is empty then redirect to login page */}
-                    {userData._id === "" && navigate("/login")}
-
-                    {/* if user has IMDB key display movies else display message to add a key */}
-                    {userData.TMDB_api_key ? (
-                        <div>
-
-                            {/* <Pagination onPageChange={handlePageChange} maxPages={maxPages} page={page} /> */}
-                            <MovieGrid movies={movies} />
-
-                        </div>
-                    ) : (
-                        <p className="center"> Loading... </p>
-                    )}
-                    <br />
-
-
-                </header >
-            </div >
+            <h1 className="center">Results for &ldquo;{searchTerm}&rdquo;</h1>
+            {error ? (
+                <p className="emptyState">Search failed: {error.message}</p>
+            ) : movies === null ? (
+                <MovieGridSkeleton />
+            ) : movies.length === 0 ? (
+                <p className="emptyState">No movies found.</p>
+            ) : (
+                <MovieGrid movies={movies} />
+            )}
         </main>
     )
 }
