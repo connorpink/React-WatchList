@@ -1,5 +1,3 @@
-//index.js
-
 const mongoose = require("mongoose");
 const mongoConnection = require("./config/connectMongo");
 const passport = require("passport");
@@ -10,8 +8,12 @@ const bodyParser = require("body-parser");
 const expressLayouts = require("express-ejs-layouts");
 const express = require("express");
 const cors = require("cors");
+require("dotenv").config();
 
-//setup server
+if (!process.env.SESSION_SECRET) {
+  throw new Error("SESSION_SECRET environment variable is not set");
+}
+
 const app = express();
 app.set("view engine", "ejs");
 app.set("layout", "layouts/layout");
@@ -22,11 +24,10 @@ app.use(bodyParser.urlencoded({ limit: "10mb", extended: false }));
 app.use(express.json());
 app.use(flash());
 
-require("dotenv").config();
 const DBString = process.env.DATABASE_URL;
 app.use(
   session({
-    secret: "figure this out later",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     store: MongoStore.create({
@@ -35,7 +36,7 @@ app.use(
       mongoUrl: DBString,
     }),
     cookie: {
-      maxAge: 1000 * 60 * 60 * 24, // expires after 24 hours
+      maxAge: 1000 * 60 * 60 * 24,
     },
   })
 );
@@ -54,7 +55,6 @@ app.use((req, res, next) => {
     .replace("T", " ")
     .substring(0, 19);
 
-  // log some general information to console for debugging
   console.log("\n\n\n\n\n");
   console.log("\x1b[31m%s\x1b[0m", "CALL TO SERVER RECEIVED!");
 
@@ -72,11 +72,6 @@ app.use((req, res, next) => {
 
   next();
 });
-
-// app.use("/server", (req, res, next) => {
-//   console.log("request made from client");
-//   next();
-// });
 
 // app.get("/", (req, res) => {
 //   res.send("Hello from our server!");
