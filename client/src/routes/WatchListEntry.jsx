@@ -1,26 +1,42 @@
-import { useState } from "react";
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 import MovieCard from '../components/MovieCard';
+import Spinner from '../components/Spinner';
 
 import "../styles/watchList.css"
 
-function WatchListEntry() {
-    const navigate = useNavigate();
-
+export default function WatchListEntryLoader() {
     const location = useLocation();
-    const movie = location.state;
+    const { movieid } = useParams();
+    const [movie, setMovie] = useState(location.state);
+    const [notFound, setNotFound] = useState(false);
 
+    useEffect(() => {
+        if (movie) return;
+        axios.get("/proxy/watchList/list")
+            .then((response) => {
+                const entry = response.data.find((item) => String(item.movieId) === movieid);
+                if (entry) setMovie({ ...entry, id: entry.movieId });
+                else setNotFound(true);
+            })
+            .catch(() => setNotFound(true));
+    }, [movie, movieid]);
+
+    if (notFound) return <main><p className="emptyState">That movie isn&apos;t on your watch list.</p></main>;
+    if (!movie) return <main><Spinner /></main>;
+    return <WatchListEntry movie={movie} />;
+}
+
+function WatchListEntry({ movie }) {
+    const navigate = useNavigate();
 
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState(null);
-    // const [priority, setPriority] = useState(movie.additionalInfo[0].details);
-    // const [notes, setNotes] = useState(movie.additionalInfo[1].details);
     const [priority, setPriority] = useState(movie.priority)
     const [notes, setNotes] = useState(movie.notes)
 
-    // for priority
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -34,18 +50,14 @@ function WatchListEntry() {
                     notes: notes,
                 }
             })
-            console.log(patchResponse);
 
             setSuccessMessage(`${patchResponse.data.message}`);
-            //redirect back to the watchList page
             navigate('/watchList');
         } catch (error) {
             setError(error);
         }
     };
 
-
-    // function to handle user pressing the delete button
     const handleDelete = async (event) => {
         event.preventDefault();
 
@@ -55,18 +67,13 @@ function WatchListEntry() {
                 method: 'DELETE',
                 url: url,
             })
-            console.log(deleteResponse);
 
             setSuccessMessage(`${deleteResponse.data.message}`);
-            //redirect back to the watchList page
             navigate('/watchList');
         } catch (error) {
             setError(error);
         }
-
     }
-
-
 
     return (
         <main style={{ backgroundImage: `url(https://image.tmdb.org/t/p/original${movie.backdrop_path})` }}>
@@ -78,7 +85,6 @@ function WatchListEntry() {
                 <div className="MovieCard">
                     {movie &&
                         <>
-
 
                             <form onSubmit={handleSubmit}>
                                 <label >Current priority: </label>
@@ -115,4 +121,3 @@ function WatchListEntry() {
     );
 }
 
-export default WatchListEntry;
