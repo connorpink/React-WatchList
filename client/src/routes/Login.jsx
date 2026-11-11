@@ -1,53 +1,45 @@
-/* eslint-disable react/no-unknown-property */
 import '../styles/login.css'
-import '../styles/forms.css'
-import React, { useRef, useState, useEffect } from 'react'
-import { Link } from "react-router-dom";
-
+import { useState, useEffect } from 'react'
+import { Link, useLocation } from "react-router-dom";
 import axios from 'axios';
+import { useAuth } from '../auth';
 
 function Login() {
-    const errorRef = useRef()
+    const { refreshUser } = useAuth();
+    const location = useLocation();
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [errorMessage, setErrorMessage] = useState("")
-
+    const [submitting, setSubmitting] = useState(false)
 
     useEffect(() => {
         setErrorMessage("");
     }, [username, password])
 
+    async function attemptLogin(event) {
+        event.preventDefault();
+        if (!username) return setErrorMessage("No username given")
+        if (!password) return setErrorMessage("No password given")
 
-    function attemptLogin() {
-
-
-        if (!username) { setErrorMessage("no username given") }
-        else if (!password) { setErrorMessage("no password given") }
-        else {
-            const postRequest = {
-                method: 'POST',
-                url: "/proxy/user/login",
-                headers: { 'Content-type': 'application/json; charset=UTF-8', },
-                data: {
-                    username: username,
-                    password: password,
-                }
-            }
-
-            axios(postRequest)
-                .then(response => {
-                    console.log(response.data)
-                    if (response.data.message == "badUser") { setErrorMessage("Username not found") }
-                    if (response.data.message == "badPass") { setErrorMessage("Password incorrect") }
-                    if (response.data.message == "success") { location.assign('/') }
-                })
+        setSubmitting(true)
+        try {
+            const response = await axios.post("/proxy/user/login", { username, password })
+            const message = response.data.message
+            if (message === "badUser") setErrorMessage("Username not found")
+            else if (message === "badPass") setErrorMessage("Password incorrect")
+            else if (message === "success") await refreshUser()
+            else setErrorMessage("Login failed, please try again")
+        } catch {
+            setErrorMessage("Couldn't reach the server, please try again")
+        } finally {
+            setSubmitting(false)
         }
     }
 
     return (
         <main>
-            <div className="loginForm" id="loginForm">
+            <form className="loginForm" id="loginForm" onSubmit={attemptLogin}>
                 <h1>Login</h1>
                 <div className="textInput">
                     <input
@@ -55,9 +47,10 @@ function Login() {
                         name="username"
                         id="username"
                         placeholder=' '
+                        autoComplete="username"
+                        autoFocus
                         value={username}
                         onChange={(event) => setUsername(event.target.value)}
-                        onKeyDown={(event) => { if (event.key === 'Enter') { attemptLogin() } }}
                     />
                     <label htmlFor="username">Username</label>
                 </div>
@@ -68,35 +61,20 @@ function Login() {
                         name="password"
                         id="password"
                         placeholder=' '
+                        autoComplete="current-password"
                         value={password}
                         onChange={(event) => setPassword(event.target.value)}
-                        onKeyDown={(event) => { if (event.key === 'Enter') { attemptLogin() } }}
                     />
                     <label htmlFor="password">Password</label>
                 </div>
 
-                <div className="splitSpace">
-                    <div className="checkboxInput">
-                        <input type="checkbox"
-                            name="remember me"
-                            id="remember"
-                            value="1" />
-                        <label htmlFor="remember">Remember Me</label>
-                    </div>
-                </div>
-
-                <button
-                    name="Submit"
-                    type="submit"
-                    id="submitButton"
-                    onClick={attemptLogin}
-                > Login </button>
-                <p ref={errorRef} className={errorMessage ? "error" : "hidden"} area-live="assertive">{errorMessage}</p>
+                <button type="submit" id="submitButton" disabled={submitting}>
+                    {submitting ? "Logging in…" : "Login"}
+                </button>
+                <p className={errorMessage ? "error" : "hidden"} aria-live="assertive">{errorMessage}</p>
                 <p>Don&apos;t have an account?</p>
-                {/* <a href='/register'>create account</a> */}
-                <Link to={`/register`} > Create account</Link>
-
-            </div>
+                <Link to="/register" state={location.state}>Create account</Link>
+            </form>
         </main>
     )
 }

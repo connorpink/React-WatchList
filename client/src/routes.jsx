@@ -8,42 +8,14 @@ import Register from "./routes/Register";
 import SearchResults from "./routes/SearchResults";
 import WatchListEntry from "./routes/WatchListEntry";
 
-//import Login from './Login';
-
 export const routes = [
-    {
-        path: '/',
-        element: <Home />,
-        errorElement: <Error />
-    },
-    {
-        path: '/watchList',
-        element: <WatchList />,
-    },
-    {
-        path: '/watchListEntry/:movieid',
-        element: <WatchListEntry />,
-    },
-    {
-        path: '/movie/:movieid',
-        element: <Movie />,
-    },
-    {
-        path: '/search',
-        element: <SearchResults />,
-    },
-    {
-        path: '/profile',
-        element: <Profile />,
-    },
-    {
-        path: '/login',
-        element: <Login />,
-    },
-    {
-        path: '/register',
-        element: <Register />,
-    },
+    { path: '/', element: <Home />, auth: "required" },
+    { path: '/watchList', element: <WatchList />, auth: "required" },
+    { path: '/watchListEntry/:movieid', element: <WatchListEntry />, auth: "required" },
+    { path: '/movie/:movieid', element: <Movie />, auth: "required" },
+    { path: '/search', element: <SearchResults />, auth: "required" },
+    { path: '/profile', element: <Profile />, auth: "required" },
+    { path: '/login', element: <Login />, auth: "guest" },
+    { path: '/register', element: <Register />, auth: "guest" },
+    { path: '*', element: <Error /> },
 ];
-
-// export default routes;   
