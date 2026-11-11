@@ -1,26 +1,19 @@
-// import { useState } from 'react';
 import "../styles/pagination.css"
+
 export default function Pagination({ onPageChange, maxPages, page }) {
-
-    function handlePageChange(direction) {
-        if (direction > 0 && page < maxPages) {
-            onPageChange(page + direction);
-            window.scrollTo(0, 0)
-
-        } else if (direction < 1 && page > 1) {
-            onPageChange(page - 1);
-            window.scrollTo(0, 0)
-
-        }
+    function goTo(newPage) {
+        if (newPage < 1 || newPage > maxPages) return;
+        onPageChange(newPage);
+        window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
+    if (maxPages <= 1) return null;
 
     return (
-
         <div className="pagination">
-            <button className="btn btn-info pageButton" onClick={() => handlePageChange(0)}>Previous</button >
-            {maxPages > 1 && <span>Page {page}</span>}
-            <button className="btn btn-info pageButton" onClick={() => handlePageChange(1)}> Next </button>
+            <button className="btn btn-info pageButton" disabled={page <= 1} onClick={() => goTo(page - 1)}>Previous</button>
+            <span>Page {page} of {maxPages}</span>
+            <button className="btn btn-info pageButton" disabled={page >= maxPages} onClick={() => goTo(page + 1)}>Next</button>
         </div>
     )
 }
