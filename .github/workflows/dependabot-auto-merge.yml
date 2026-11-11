@@ -21,18 +21,37 @@ jobs:
         id: metadata
         uses: dependabot/fetch-metadata@v2
 
-      - name: Approve safe Dependabot updates
-        if: |
-          steps.metadata.outputs.update-type == 'version-update:semver-patch' ||
-          steps.metadata.outputs.update-type == 'version-update:semver-minor'
-        run: gh pr review --approve "${{ github.event.pull_request.html_url }}"
+      # Grouped PRs (client-non-major, server-non-major, *-security) report an
+      # empty update-type, so they are matched by group name instead. The
+      # non-major groups only ever contain minor/patch bumps, and the security
+      # groups contain fixes for open advisories. Ungrouped major bumps still
+      # need a manual review.
+      - name: Decide whether this update is safe to auto-merge
+        id: decide
         env:
+          UPDATE_TYPE: ${{ steps.metadata.outputs.update-type }}
+          GROUP: ${{ steps.metadata.outputs.dependency-group }}
+        run: |
+          safe=false
+          case "$UPDATE_TYPE" in
+            version-update:semver-patch|version-update:semver-minor) safe=true ;;
+          esac
+          case "$GROUP" in
+            client-non-major|server-non-major|client-security|server-security) safe=true ;;
+          esac
+          echo "update-type='$UPDATE_TYPE' group='$GROUP' -> safe=$safe"
+          echo "safe=$safe" >> "$GITHUB_OUTPUT"
+
+      - name: Approve safe Dependabot updates
+        if: steps.decide.outputs.safe == 'true'
+        run: gh pr review --approve "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Enable auto-merge for safe Dependabot updates
-        if: |
-          steps.metadata.outputs.update-type == 'version-update:semver-patch' ||
-          steps.metadata.outputs.update-type == 'version-update:semver-minor'
-        run: gh pr merge --auto --merge "${{ github.event.pull_request.html_url }}"
+        if: steps.decide.outputs.safe == 'true'
+        run: gh pr merge --auto --merge "$PR_URL"
         env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
