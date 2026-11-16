@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { MongoClient, ServerApiVersion } = require("mongodb");
 require("dotenv").config();
 const DBString = process.env.DATABASE_URL;
 
