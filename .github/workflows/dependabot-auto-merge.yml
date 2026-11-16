@@ -19,7 +19,7 @@ jobs:
     steps:
       - name: Fetch Dependabot metadata
         id: metadata
-        uses: dependabot/fetch-metadata@v2
+        uses: dependabot/fetch-metadata@v3
 
       # Grouped PRs (client-non-major, server-non-major, *-security) report an
       # empty update-type, so they are matched by group name instead. The
