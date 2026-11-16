@@ -1,11 +1,7 @@
-const mongoose = require("mongoose");
-const mongoConnection = require("./config/connectMongo");
+require("./config/connectMongo");
 const passport = require("passport");
-const flash = require("connect-flash");
 const session = require("express-session");
-const MongoStore = require("connect-mongo");
-const bodyParser = require("body-parser");
-const expressLayouts = require("express-ejs-layouts");
+const { MongoStore } = require("connect-mongo");
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
@@ -15,14 +11,9 @@ if (!process.env.SESSION_SECRET) {
 }
 
 const app = express();
-app.set("view engine", "ejs");
-app.set("layout", "layouts/layout");
-app.use(expressLayouts);
-app.use(express.static("public"));
 app.use(cors());
-app.use(bodyParser.urlencoded({ limit: "10mb", extended: false }));
+app.use(express.urlencoded({ limit: "10mb", extended: false }));
 app.use(express.json());
-app.use(flash());
 
 const DBString = process.env.DATABASE_URL;
 app.use(
@@ -31,7 +22,6 @@ app.use(
     resave: false,
     saveUninitialized: true,
     store: MongoStore.create({
-      mongooseConnection: mongoConnection,
       collection: "session",
       mongoUrl: DBString,
     }),
