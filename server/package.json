@@ -17,7 +17,7 @@
     "express": "^5.3.0",
     "express-session": "^1.19.0",
     "mongodb": "^7.9.1",
-    "mongoose": "^9.12.2",
+    "mongoose": "^9.12.3",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0"
   },
